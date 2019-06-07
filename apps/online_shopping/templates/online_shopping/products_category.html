@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Product Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style>
+            body {
+                padding: 10px;
+            }
+            aside{
+                display: inline-block;
+                width: 24%;
+                border: 1px solid black;
+                padding: 5px;
+            }
+            main {
+                display: inline-block;
+                width: 75%;
+                border: 1px solid black;
+                padding: 15px;  
+                vertical-align: top;
+            }
+            #home_link {
+                display: block;
+            }
+            h1, h2 {
+                color:navy;
+            }
+            header p, header a {
+                display: inline-block;
+                color: white;
+                padding-left: 3px;
+            }
+            header {
+                background-color: navy;
+            }
+            p#cart {
+                margin-left: 70%;
+            }
+            nav#nav {
+                padding: 10px 2px;
+            }
+            ul{
+                list-style: none;
+                margin: 0;
+            }
+            a#cart {
+                margin-left: 70%;
+            }
+            a#cart:hover {
+                color: lightblue;
+                text-decoration: none;
+            }
+            div#featured_prods {
+                display: inline-block;
+                width: 400px;
+                height: 400px;
+                padding-top: 15px;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <p>eCommerce- Store Name!</p>
+            <a href='/carts' id="cart">Shopping Cart()</a>
+        </header>
+        <a href="/" id='home_link'>Home</a>
+        <aside>
+            <nav id='nav' class="navbar navbar-light bg-light">
+                <form class="form-inline">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
+                </form>
+            </nav> 
+            <div id='categories'>    
+                <h4>Categories</h4>
+                <ul>
+                {% for cat in categories %}
+                    <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}} ({{cat.prod_in_category.count}})</a></li>
+                {% endfor %}
+                </ul>
+            </div>
+        </aside>
+    
+        <main>
+            <h1>{{ selected_cat}}</h1>
+            {% for p in prods_in_cat %}
+            <div id='featured_prods'>
+                <a href="/products/show/{{ p.id }}">
+                    <img src="{{p.main_img}}" alt="{{p.name}}" height="400" width="400">
+                    <br>
+                    {{p.name}}
+                    ${{p.price}}
+                </a>
+            </div>
+            {% endfor %}
+        </main>       
+    </body>
+    </html>

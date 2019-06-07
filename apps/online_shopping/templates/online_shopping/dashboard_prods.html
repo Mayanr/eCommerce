@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Products Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <style>
+    header p, header a {
+        display: inline-block;
+        padding: 15px;
+        color: white;
+    }
+    header a:hover{
+        text-decoration: none;
+        color: rgb(221, 189, 189);
+    }
+    header a:active {
+        color: black;
+    }
+    header {
+        background-color: darkred;
+    }
+    a#logout {
+        margin-left: 70%;
+    }
+    nav.navbar {
+        display: inline-block;
+    }
+    #add_prod_btn {
+        display: inline-block;
+        margin-left: 65%;
+
+    }
+    #add_prod_btn a {
+        color: white;
+        text-decoration: none;
+    }
+    h1 {
+        color: white;
+        background-color: darkred;
+        text-align: center;
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <p>Dashboard</p>
+        <a href='/dashboard/orders' >Orders</a>
+        <a href='/dashboard/prods' style="text-decoration: underline">Products</a>
+        <a id='logout' href='/LOGOUT'>Log Out</a>     
+    </header>
+
+    <nav class="navbar ">
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-danger" type="submit">Search</button>
+        </form>
+    </nav> 
+    <button id='add_prod_btn' class="btn btn-danger"><a href='#form_add_prod'rel="modal:open" >Add A New Product</a></button>
+     
+
+    <table class="table table-striped">
+        <tr>
+            <th scope="col">Picture</th>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope='col'>Category</th>
+            <th scope="col">Inventory Count</th>
+            <th scope="col">Quant Sold</th>
+            <th scope="col">Action</th>
+        </tr>
+        <!-- { for prod in inventory } -->
+        <tr>
+            <td>{ prod.pic }</td>
+            <td>1</td>
+            <td>Hats</td>
+            <td>Accessory</td>
+            <td>183 </td>
+            <td>17</td>
+            <td>
+                <a href='#form_edit_prod' rel="modal:open">Edit</a>               
+                <a href='DELETE/{prod.id}'>Delete</a>
+            </td>
+            
+        </tr>
+        <!-- { endfor } -->
+
+        {% for prod in products %}
+        <tr>
+            <td><img src="{{ prod.main_img }}">{{ prod.main_img }}</td>
+            <td>{{ prod.id }}</td>
+            <td>{{ prod.name }}</td>
+            <td>{{ prod.cat.title }}</td>           
+            <td>{{ prod.count }} </td>
+            <td>{{ prod.sold }}</td>
+            <td>
+                <a href='#form_edit_prod' rel="modal:open">Edit</a>               
+                <a href='DELETE/{prod.id}'>Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table> 
+
+    <div id="form_add_prod" class='modal'>
+    <h1>Add New Product</h1>
+        <form  method="POST" action='/add_prod' enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="prod_id" value="{prod.id}">
+            <p>Name: <input type="text" name="name" required></p>
+            <p>Description: <textarea name="desc" cols="30" rows="10"></textarea></p>
+            <p>Price per unit: $<input type="number" min="0.01" step="0.01" name="unit_price" required></p>
+            <p>Categories: 
+            <select name="category">
+                <option value='cat'>categories</option>
+            </select>
+            </p>
+            <p>or add new category: <input type="text"  name="category" ></p>
+            <p>Inventory Count: <input type="number" name="inventory_count"></p>
+            <p>images <input type='file' name='main_pic' multiple></p>
+            <input type="submit" value="Add Product" class="btn btn-danger" id='add_prod_btn'>
+        </form>
+    </div>
+
+
+    <div id="form_edit_prod" class='modal'>
+    <h1>Edit Product - ID { prod.id }</h1>
+        <form  method="POST" action=''>
+            {% csrf_token %}
+            <input type="hidden" name="prod_id" value="{prod.id}">
+            <p>Name: <input type="text" name="name" value='{prod.name}' required></p>
+            <p>Description: <textarea name="desc" cols="30" rows="10">{prod.desc}</textarea></p>
+            <p>categories: 
+            <select>
+                <option value='mug'>Mug</option>
+                <option value='shirt'>Shirt</option>
+                <option value='hat'>Hat</option>
+                <option value='pant'>Pant</option>
+                <option value='key_chain'>Key chain</option>
+                <option value='belt'>Belt</option>
+            </select>
+            </p>
+            <p>or add new category: <input type="text"  name="add_new_cat" ></p>
+            <p>images <input type='file' name='pic'multiple></p>
+            <input type="submit" value="Update" class="btn btn-danger" id='add_prod_btn'>
+        </form>
+    </div>
+
+</body>
+</html>

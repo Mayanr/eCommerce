@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Dashboard Orders</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+    header p, header a {
+        display: inline-block;
+        padding: 15px;
+        color: white;
+    }
+    header a:hover{
+        text-decoration: none;
+        color: rgb(221, 189, 189);
+    }
+    header a:active {
+        color: black;
+    }
+    header {
+        background-color: darkred;
+    }
+    a#logout {
+        margin-left: 70%;
+    }
+
+    </style>
+</head>
+<body>
+    <header>
+        <p>Dashboard</p>
+        <a href='/dashboard/orders' style="text-decoration: underline">Orders</a>
+        <a href='/dashboard/prods'>Products</a>
+        <a id='logout' href='/LOGOUT'>Log Out</a>     
+    </header>
+
+    <nav class="navbar ">
+        <form class="form-inline">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-danger" type="submit">Search</button>
+        </form>
+    </nav> 
+
+    <table class="table table-striped">
+            <tr>
+                <th scope="col">Order ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Date</th>
+                <th scope="col">Billing Address</th>
+                <th scope="col">Total</th>
+                <th scope="col">Status</th>
+            </tr>
+            <!-- { for prod in inventory } -->
+            <tr>
+                <td><a href='/orders/show/1'>1</a></td>
+                <td>Bob</td>
+                <td>04/30/2019</td>
+                <td>1640 N Poinsettia Place LA, CA </td>
+                <td>$14.99</td>
+                <td>
+                    <form action="??" method='POST'>
+                        {% csrf_token %}
+                        <select>
+                            <option value="shipped">shipped</option>
+                            <option value="cancelled">cancelled</option>
+                            <option value="in_process">order in process</option>
+                        </select>
+                    </form>
+                </td>
+               
+            </tr>
+            <!-- { endfor } -->
+
+
+
+            {% for order in orders %}
+            <tr>
+                <td><a href='/orders/show/{{order.id}}'>{{order.id}}</a></td>
+                <td>{{order.fname}} {{order.lname}}</td>
+                <td>{{order.created_at}}</td>
+                <td>{{order.address}} </td>
+                <td>Need to calculate</td>
+                <td>
+                    {% if order.status == 'shipped' %}
+                    <form action="??" method='POST'>
+                        {% csrf_token %}
+                        <select>
+                            <option value="shipped" selected="selected">shipped</option>
+                            <option value="cancelled">cancelled</option>
+                            <option value="in_process">order in process</option>
+                        </select>
+                    </form>
+                    {% elif order.status == 'cancelled' %}
+                    <form action="??" method='POST'>
+                            {% csrf_token %}
+                        <select>
+                            <option value="shipped" >shipped</option>
+                            <option value="cancelled" selected="selected">cancelled</option>
+                            <option value="in_process">order in process</option>
+                        </select>
+                    </form>
+                    {% else %}
+                    <form action="??" method='POST'>
+                            {% csrf_token %}
+                        <select>
+                            <option value="shipped" >shipped</option>
+                            <option value="cancelled" >cancelled</option>
+                            <option value="in_process" selected="selected">order in process</option>
+                        </select>
+                    </form>
+                    {% endif %}
+                </td>
+                
+            </tr>
+            {% endfor %}
+        </table>
+
+</body>
+</html>

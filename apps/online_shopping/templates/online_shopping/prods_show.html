@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Prod Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+    body {
+        padding: 10px;
+    }
+    div#image{
+        display: inline-block;
+        width: 30%;
+        padding: 10px;
+        vertical-align: top;
+    }
+    div#details{
+        display: inline-block;
+        width: 60%;
+        padding: 10px;
+    }
+    h1, h2 {
+        color:navy;
+    }
+    header p {
+        display: inline-block;
+        color: white;
+        padding-left: 3px;
+    }
+    header {
+        background-color: navy;
+    }
+    p#cart {
+        margin-left: 70%;
+    }
+    header p, header a {
+        display: inline-block;
+        color: white;
+        padding-left: 3px;
+    }
+    a#cart {
+        margin-left: 70%;
+    }
+    a#cart:hover {
+        color: lightblue;
+        text-decoration: none;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <p>eCommerce- Store Name!</p>
+        <a href='/carts' id="cart">Shopping Cart()</a>
+    </header>
+    <a href="/">Home</a> | 
+    <a href='/products/category/{{ selected_prod.cat.id }}'>Go Back</a>
+    <h1>{{ selected_prod.name }}</h1>
+    <div id='image'>
+        <img src="{{selected_prod.main_img.url}}" alt="{{selected_prod.name}}" height="400" width="400">
+    </div>
+    <div id='details'>
+        <p>{{selected_prod.desc}}</p>
+        <p>price: {{selected_prod.price}}</p>
+
+        <form action="/addtoCart/1" method='POST'>
+            {% csrf_token %}
+            <p>Quantity: <select>
+                {% for i in i|rjust:20 %}
+                    <option value='{{ forloop.counter }}'> {{ forloop.counter }}
+                        <!-- (${% widthratio forloop.counter 1 3.99 %}) -->
+                    </option>
+                {% endfor %}
+            </select>
+        </p>
+            <input type="submit">
+        </form>
+    </div>
+    <h2>Similar Items</h2>
+    
+</body>
+</html>

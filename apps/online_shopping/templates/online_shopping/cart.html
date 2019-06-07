@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        body {
+            padding: 10px;
+        }
+        h1 {
+            color:navy;
+        }
+        table#width, form {
+            max-width: 70%;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+        #below_table {
+            margin-left: 70%;
+            margin-bottom: 30px;
+        }
+        a:hover {
+            text-decoration: none;
+            color: navy;
+        }
+        header p, header a {
+        display: inline-block;
+        color: white;
+        padding-left: 3px;
+        }
+        header {
+            background-color: navy;
+        }
+        a#cart {
+            margin-left: 70%;
+        }
+        a#cart:hover {
+            color: lightblue;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <p>eCommerce- Store Name!</p>
+        <a href='/carts' id="cart">Shopping Cart()</a>
+    </header>
+    <h1> Items in your cart:</h1>
+    <table id='width' class="table table-striped">
+        <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Total</th>
+        </tr>
+        <!-- { for prod in yourCart } -->
+        <tr>
+            <td>testing</td>
+            <td>$3.99</td>
+            <td>2 | <a href=''>update</a> | <a href=''>delete</a></td>
+            <td>mult price * quant</td>
+        </tr>
+        <!-- { endfor } -->
+    </table>
+    <div id='below_table'>
+        <p>Total: {Sum of all totals}</p>
+        <button><a href='/'> Continue Shopping</a></button>
+    </div>
+    <form action='process_payment' method="POST">
+        {% csrf_token %}
+        <h3>Shipping Address</h3>
+            <p>First Name: <input type="text" name='ship_fname' ></p>
+            <p>Last Name: <input type="text" name='ship_lname' ></p>
+            <p>Address: <input type="text" name='ship_address' ></p>
+            <p>Address 2: <input type="text" name='ship_address2' ></p>
+            <p>State: <input type="text" name='ship_state' ></p>
+            <p>zipcode: <input type="number" name='ship_zip' ></p>
+
+
+        <h3>Billing Address</h3>
+            <p><input type="checkbox" name="same" > Same as Shipping</p>
+            <p>First Name: <input type="text" name='bill_fname' ></p>
+            <p>Last Name: <input type="text" name='bill_lname' ></p>
+            <p>Address: <input type="text" name='bill_address' ></p>
+            <p>Address 2: <input type="text" name='bill_address2' ></p>
+            <p>State: <input type="text" name='bill_state' ></p>
+            <p>zipcode: <input type="number" name='bill_zip' ></p>
+            {Stripe code to enable card payment}
+    </form>
+</body>
+</html>

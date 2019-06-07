@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Order Info</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+    header p, header a {
+        display: inline-block;
+        padding: 15px;
+        color: white;
+    }
+    header a:hover{
+        text-decoration: none;
+        color: rgb(221, 189, 189);
+    }
+    header a:active {
+        color: black;
+    }
+    header {
+        background-color: darkred;
+    }
+    a#logout {
+        margin-left: 70%;
+    }
+    table#order_items {
+        width: 65%;
+        margin: 10px;
+        vertical-align: top;
+    }
+    aside {
+        border: 1px solid black;
+        display: inline-block;
+        width: 25%;
+        margin: 35px;
+        padding: 10px;
+    }
+    div#wrapper {
+        width: 65%;
+        display: inline-block;
+        vertical-align: top;
+        margin: 35px;
+    }
+    div.info {
+        padding: 20px 0;
+    }
+   #status, #totals {
+        display: inline-block;
+        width: 30%;
+        margin:  0 15px;
+        vertical-align: top;
+    }
+    #status_subtotal {
+        margin-top: 50px;
+    }
+    #status {
+        background-color: lightgreen;
+        border: 1px solid black;
+        padding: 5px;
+    }
+    #totals {
+        border: 1px solid black;
+        padding: 10px; 
+    }
+    p {
+        padding: 0;
+        margin: 0;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <p>Dashboard</p>
+        <a href='/dashboard/orders' >Orders</a>
+        <a href='/dashboard/prods' >Products</a>
+        <a id='logout' href='/LOGOUT'>Log Out</a>     
+    </header>
+
+    <aside>
+        <p>Order ID: { order.id }</p>
+
+        <div class = 'info'>
+            <p>Customer Shipping Info: </p>
+            <p>First Name: { order.fname }</p>
+            <p>Last Name: { order.lname }</p>
+            <p>City: { order.city }</p>
+            <p>State: { order.state }</p>
+            <p>Zip: { order.zip }</p>
+        </div>
+
+        <div class = 'info'>
+            <p>Customer Billing Info: </p>
+            <p>First Name: { order.fname }</p>
+            <p>Last Name: { order.lname }</p>
+            <p>City: { order.city }</p>
+            <p>State: { order.state }</p>
+            <p>Zip: { order.zip }</p>
+        </div>       
+    </aside>
+
+    <div id='wrapper'>
+        <table id='order_items' class="table table-striped">
+            <tr>
+                <th scope="col">Item ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Cost</th>
+            </tr>
+            <!-- { for prod in order } -->
+            <tr>
+                <td>1</td>
+                <td>Shirt</td>
+                <td>$10.00</td>
+                <td>4 </td>
+                <td>$40.00</td>
+            </tr>
+            <!-- { endfor } -->
+        </table>
+    <div id='status_subtotal'>
+        <div id='status'>
+                <p>Status: { object.status } </p>
+            </div>
+            <div id='totals'>
+                <p>Sub Total: ${ sum of costs } </p>
+                <p>Shipping: $100</p>
+                <p>Total Price: ${ sub-total + shipping } </p>
+            </div>
+        </div>
+    </div> 
+</body>
+</html>
