@@ -99,7 +99,7 @@
 
         {% for prod in products %}
         <tr>
-            <td><img src="{{ prod.main_img }}">{{ prod.main_img }}</td>
+            <td><img src="{{ prod.main_img }}" alt="{{selected_prod.name}}" height="100" width="100"></td>
             <td>{{ prod.id }}</td>
             <td>{{ prod.name }}</td>
             <td>{{ prod.cat.title }}</td>           
@@ -123,12 +123,14 @@
             <p>Price per unit: $<input type="number" min="0.01" step="0.01" name="unit_price" required></p>
             <p>Categories: 
             <select name="category">
-                <option value='cat'>categories</option>
+                {% for cat in categories %}
+                    <option value = '{{ cat.id }}' >{{cat.title}}</option>
+                {% endfor %}
             </select>
             </p>
-            <p>or add new category: <input type="text"  name="category" ></p>
+            <!-- <p>or add new category: <input type="text"  name="category" ></p> -->
             <p>Inventory Count: <input type="number" name="inventory_count"></p>
-            <p>images <input type='file' name='main_pic' multiple></p>
+            <p>Image: <input type='text' name='main_pic'></p>
             <input type="submit" value="Add Product" class="btn btn-danger" id='add_prod_btn'>
         </form>
     </div>
@@ -152,7 +154,7 @@
             </select>
             </p>
             <p>or add new category: <input type="text"  name="add_new_cat" ></p>
-            <p>images <input type='file' name='pic'multiple></p>
+            <p>Image <input type='text' name='main_pic'></p>
             <input type="submit" value="Update" class="btn btn-danger" id='add_prod_btn'>
         </form>
     </div>

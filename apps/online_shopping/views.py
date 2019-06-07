@@ -10,7 +10,7 @@ from PIL import Image
 
 def index(request):
     context = {
-        'categories' : Category.objects.all().distinct()
+        'categories' : Category.objects.order_by('title')
     }
     return render(request, "online_shopping/index.html", context)
 
@@ -59,7 +59,7 @@ def dashboard_orders(request):
 def dashboard_prods(request):
     context = {
         'products' : Prod.objects.all(),
-
+        'categories' : Category.objects.order_by('title')
     }
     return render(request, 'online_shopping/dashboard_prods.html', context)
 
@@ -83,7 +83,8 @@ def add_prod(request):
         c = request.POST['category']
         img = request.POST['main_pic']
         count = request.POST['inventory_count']
-        new_cat = Category.objects.create(title = c)
-        Prod.objects.create(name = n, desc = d, price = p, cat = new_cat, count = count, main_img = img)
+        add_to_cat = Category.objects.get(id = c)
+        # new_cat = Category.objects.create(title = c)
+        Prod.objects.create(name = n, desc = d, price = p, cat = add_to_cat, count = count, main_img = img)
     return redirect('/dashboard/prods')
     

@@ -40,7 +40,7 @@ class Prod(models.Model):
     desc = models.TextField()
     price = models.DecimalField(max_digits=6, decimal_places=2)
     cat = models.ForeignKey(Category, related_name="prod_in_category")
-    main_img = models.ImageField(upload_to='images/')
+    main_img = models.TextField()
     count = models.IntegerField()
     sold = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,7 +50,7 @@ class Prod(models.Model):
     # included_in_order ...from Order_Item 
 
 class Additional_Img(models.Model):
-    image_file = models.ImageField(upload_to='images/')
+    image_file = models.TextField()
     for_prod= models.ForeignKey(Prod, related_name="more_img")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
