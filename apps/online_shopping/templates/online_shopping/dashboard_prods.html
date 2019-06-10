@@ -9,9 +9,14 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 
+    <!-- js -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
     <!-- jQuery Modal -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" /> -->
 
     <style>
     header p, header a {
@@ -55,6 +60,9 @@
     </style>
 </head>
 <body>
+    
+
+
     <header>
         <p>Dashboard</p>
         <a href='/dashboard/orders' >Orders</a>
@@ -68,8 +76,11 @@
             <button class="btn btn-danger" type="submit">Search</button>
         </form>
     </nav> 
-    <button id='add_prod_btn' class="btn btn-danger"><a href='#form_add_prod'rel="modal:open" >Add A New Product</a></button>
+    <button type="button" id='add_prod_btn' class="btn btn-primary" data-toggle="modal" data-target="#form_add_prod">Add A New Product</button> 
+    <!-- <button id='add_prod_btn' class="btn btn-danger" ><a href='#form_add_prod' rel="modal:open" >Add A New Product</a></button> -->
      
+    
+    
 
     <table class="table table-striped">
         <tr>
@@ -82,7 +93,7 @@
             <th scope="col">Action</th>
         </tr>
         <!-- { for prod in inventory } -->
-        <tr>
+        <!-- <tr>
             <td>{ prod.pic }</td>
             <td>1</td>
             <td>Hats</td>
@@ -94,7 +105,7 @@
                 <a href='DELETE/{prod.id}'>Delete</a>
             </td>
             
-        </tr>
+        </tr> -->
         <!-- { endfor } -->
 
         {% for prod in products %}
@@ -102,62 +113,105 @@
             <td><img src="{{ prod.main_img }}" alt="{{selected_prod.name}}" height="100" width="100"></td>
             <td>{{ prod.id }}</td>
             <td>{{ prod.name }}</td>
-            <td>{{ prod.cat.title }}</td>           
+            <td>{{ prod.cat.title }}, {{ prod.cat.id }}</td>           
             <td>{{ prod.count }} </td>
             <td>{{ prod.sold }}</td>
             <td>
-                <a href='#form_edit_prod' rel="modal:open">Edit</a>               
-                <a href='DELETE/{prod.id}'>Delete</a>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form_edit_prod"  data-id="{{ prod.id }}">Edit</button>  
+                <!-- <a rel="modal:open"  href='#form_edit_prod'> -->
+                <a href='delete/{{prod.id}}'>Delete</a>
             </td>
         </tr>
         {% endfor %}
     </table> 
 
-    <div id="form_add_prod" class='modal'>
-    <h1>Add New Product</h1>
-        <form  method="POST" action='/add_prod' enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="hidden" name="prod_id" value="{prod.id}">
-            <p>Name: <input type="text" name="name" required></p>
-            <p>Description: <textarea name="desc" cols="30" rows="10"></textarea></p>
-            <p>Price per unit: $<input type="number" min="0.01" step="0.01" name="unit_price" required></p>
-            <p>Categories: 
-            <select name="category">
-                {% for cat in categories %}
-                    <option value = '{{ cat.id }}' >{{cat.title}}</option>
-                {% endfor %}
-            </select>
-            </p>
-            <!-- <p>or add new category: <input type="text"  name="category" ></p> -->
-            <p>Inventory Count: <input type="number" name="inventory_count"></p>
-            <p>Image: <input type='text' name='main_pic'></p>
-            <input type="submit" value="Add Product" class="btn btn-danger" id='add_prod_btn'>
-        </form>
+    <div id="form_add_prod" class='modal fade'  tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h1 class="modal-title" id="editModalTitle">Add New Product</h1>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button> 
+                </div> 
+
+                <div class="modal-body">
+                <form  method="POST" action='/add_prod' enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="prod_id" value="{prod.id}">
+                    <p>Name: <input type="text" name="name" required></p>
+                    <p>Description: <textarea name="desc" cols="30" rows="10"></textarea></p>
+                    <p>Price per unit: $<input type="number" min="0.01" step="0.01" name="unit_price" required></p>
+                    <p>Categories: 
+                    <select name="category">
+                        {% for cat in categories %}
+                            <option value = '{{ cat.id }}' >{{cat.title}}</option>
+                        {% endfor %}
+                    </select>
+                    </p>
+                    <!-- <p>or add new category: <input type="text"  name="category" ></p> -->
+                    <p>Inventory Count: <input type="number" name="inventory_count"></p>
+                    <p>Image: <input type='text' name='main_pic'></p>
+                    <input type="submit" value="Add Product" class="btn btn-danger" id='add_prod_btn'>
+                </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 
-    <div id="form_edit_prod" class='modal'>
-    <h1>Edit Product - ID { prod.id }</h1>
-        <form  method="POST" action=''>
-            {% csrf_token %}
-            <input type="hidden" name="prod_id" value="{prod.id}">
-            <p>Name: <input type="text" name="name" value='{prod.name}' required></p>
-            <p>Description: <textarea name="desc" cols="30" rows="10">{prod.desc}</textarea></p>
-            <p>categories: 
-            <select>
-                <option value='mug'>Mug</option>
-                <option value='shirt'>Shirt</option>
-                <option value='hat'>Hat</option>
-                <option value='pant'>Pant</option>
-                <option value='key_chain'>Key chain</option>
-                <option value='belt'>Belt</option>
-            </select>
-            </p>
-            <p>or add new category: <input type="text"  name="add_new_cat" ></p>
-            <p>Image <input type='text' name='main_pic'></p>
-            <input type="submit" value="Update" class="btn btn-danger" id='add_prod_btn'>
-        </form>
+
+    <!-- <div id="form_edit_prod" class='modal'> -->
+    <div class="modal fade" id="form_edit_prod"  tabindex="-1" role="dialog" aria-labelledby="editModalTitle" >
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h1 class="modal-title" id="editModalTitle">Edit Product - ID {{ products.id }}</h1>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button> 
+                    </div>  
+                    
+                    <div class="modal-body">
+
+                        <form  method="POST" action=''>
+
+                            {% csrf_token %}
+                            <div class= "form-group">
+                                <input type="hidden" name="prod_id" value="{{prod.id}}">
+                            </div>
+                            <p>Name: <input type="text" name="name" value='{{prod.name}}' required></p>
+                            <p>Description: <textarea name="desc" cols="30" rows="10">{{prod.desc}}</textarea></p>
+                            <p>Categories: 
+                                <select name="category">
+                                    {% for cat in categories %}
+                                        <option value = '{{ cat.id }}' >{{cat.title}}</option>
+                                    {% endfor %}
+                                </select>
+                            </p>
+                            <!-- <p>or add new category: <input type="text"  name="add_new_cat" ></p> -->
+                            <p>Inventory Count: <input type="number" name="inventory_count" value='{{prod.count}}'></p>
+                            <p>Image: <input type='text' name='main_pic' value='{{prod.main_img}}' ></p>
+                            <input type="submit" value="Update" class="btn btn-danger" id='updated_prod_btn'>
+                        </form>
+                </div>
+            </div>
+        </div>
     </div>
 
+
+        <script type = "text/javascript">
+                $('#form_edit_prod').on('show.bs.modal', function (event) {
+                    console.log("button pressed");
+                    var button = $(event.relatedTarget) // Button that triggered the modal
+                    var recipient = button.data('id') // Extract info from data-* attributes
+                    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                    var modal = $(this)
+                    modal.find('.modal-title').text('Edit' + recipient)
+                    modal.find('.modal-body input').val(recipient)
+                })
+            </script>
 </body>
 </html>

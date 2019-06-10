@@ -17,7 +17,8 @@ urlpatterns = [
     url(r'^dashboard/orders$', views.dashboard_orders),
     url(r'^dashboard/prods$', views.dashboard_prods),
     url(r'^orders/show/(?P<order_id>\d+)$', views.orders_show),
-    url(r'^add_prod$', views.add_prod)
+    url(r'^add_prod$', views.add_prod),
+    url(r'^dashboard/delete/(?P<prod_id>\d+)$', views.delete_prod),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

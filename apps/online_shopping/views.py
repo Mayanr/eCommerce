@@ -59,7 +59,8 @@ def dashboard_orders(request):
 def dashboard_prods(request):
     context = {
         'products' : Prod.objects.all(),
-        'categories' : Category.objects.order_by('title')
+        'categories' : Category.objects.order_by('title'),
+        # 'product' : Prod.objects.get()
     }
     return render(request, 'online_shopping/dashboard_prods.html', context)
 
@@ -87,4 +88,9 @@ def add_prod(request):
         # new_cat = Category.objects.create(title = c)
         Prod.objects.create(name = n, desc = d, price = p, cat = add_to_cat, count = count, main_img = img)
     return redirect('/dashboard/prods')
+
+def delete_prod(request, prod_id):
+    Prod.objects.filter(id= prod_id).delete()
+    return redirect('/dashboard/prods')
+
     
