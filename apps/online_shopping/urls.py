@@ -19,6 +19,10 @@ urlpatterns = [
     url(r'^orders/show/(?P<order_id>\d+)$', views.orders_show),
     url(r'^add_prod$', views.add_prod),
     url(r'^dashboard/delete/(?P<prod_id>\d+)$', views.delete_prod),
+    # url(r'^dashboard/update/(?P<prod_id>\d+)$', views.update_prod),
+    url(r'^update_prod$', views.update_prod),
+
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

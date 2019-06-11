@@ -56,8 +56,8 @@
             }
             div#featured_prods {
                 display: inline-block;
-                width: 400px;
-                height: 400px;
+                width: 300px;
+                height: 300px;
                 padding-top: 15px;
             }
         </style>
@@ -89,7 +89,7 @@
             <h1>{{ selected_cat}}</h1>
             {% for p in prods_in_cat %}
             <div id='featured_prods'>
-                <a href="/products/show/{{ p.id }}">
+                <a href="/products/show/{{ p.id }}" style="text-decoration: none;">
                     <img src="{{p.main_img}}" alt="{{p.name}}" height="200" width="200">
                     <br>
                     {{p.name}}

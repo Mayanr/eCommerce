@@ -88,6 +88,7 @@
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope='col'>Category</th>
+            <th scope='col'>Price/Unit</th>
             <th scope="col">Inventory Count</th>
             <th scope="col">Quant Sold</th>
             <th scope="col">Action</th>
@@ -98,11 +99,12 @@
             <td><img src="{{ prod.main_img }}" alt="{{prod.name}}" height="100" width="100"></td>
             <td>{{ prod.id }}</td>
             <td>{{ prod.name }}</td>
-            <td>{{ prod.cat.title }}, {{ prod.cat.id }}</td>           
+            <td>{{ prod.cat.title }}, {{ prod.cat.id }}</td>
+            <td>{{ prod.price }} </td>           
             <td>{{ prod.count }} </td>
             <td>{{ prod.sold }}</td>
             <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form_edit_prod"  data-id="{{ prod.id }}" data-name="{{ prod.name }}" data-desc="{{ prod.desc }}" data-cat="{{ prod.cat.title }}" data-count="{{ prod.count }}" data-sold="{{ prod.sold }}" data-img="{{ prod.main_img }}" >Edit</button>  
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form_edit_prod"  data-id="{{ prod.id }}" data-name="{{ prod.name }}" data-desc="{{ prod.desc }}" data-cat="{{ prod.cat.id }}" data-count="{{ prod.count }}" data-sold="{{ prod.sold }}" data-img="{{ prod.main_img }}" data-price="{{ prod.price }}">Edit</button>  
                 <a href='delete/{{ prod.id }}'>Delete</a>
             </td>
         </tr>
@@ -125,7 +127,6 @@
                 <div class="modal-body">
                 <form  method="POST" action='/add_prod' enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="hidden" name="prod_id" value="{prod.id}">
                     <p>Name: <input type="text" name="name" required></p>
                     <p>Description: <textarea name="desc" cols="30" rows="10"></textarea></p>
                     <p>Price per unit: $<input type="number" min="0.01" step="0.01" name="unit_price" required></p>
@@ -148,63 +149,63 @@
 
     <!-- "Edit" button in Action column -->
     <div class="modal fade" id="form_edit_prod"  tabindex="-1" role="dialog" aria-labelledby="editModalTitle" >
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                    <h1 class="modal-title" id="editModalTitle">Edit Product - ID {{ products.id }}</h1>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button> 
-                    </div>  
-                    
-                    <div class="modal-body">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h1 class="modal-title" id="editModalTitle"></h1>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button> 
+                </div>  
+                
+                <div class="modal-body">
 
-                        <form  method="POST" action=''>
+                    <form  method="POST" action='/update_prod'>
 
-                            {% csrf_token %}
-                            <div class= "form-group">
-                                <input type="hidden" name="prod_id" id="id">
-                            </div>
-                            <p>Name: <input type="text" name="name" id="name" required></p>
-                            <p>Description: <textarea name="desc" cols="30" rows="10">{{prod.desc}}</textarea></p>
-                            <p>Categories: 
-                                <select id= "cat" name="category">
-                                    {% for cat in categories %}
-                                        <option value = '{{ cat.id }}' >{{cat.title}}</option>
-                                    {% endfor %}
-                                </select>
-                            </p>
-                            <!-- <p>or add new category: <input type="text"  name="add_new_cat" ></p> -->
-                            <p>Inventory Count: <input type="number" id="count" name="inventory_count" value=''></p>
-                            <p>Image: <input type='text' name='main_pic' id="img"  ></p>
-                            <input type="submit" value="Update" class="btn btn-danger" id='updated_prod_btn'>
-                        </form>
+                        {% csrf_token %}
+                        <input type="hidden" name="prod_id" id="prod_id" value=''>
+                        <p>Name: <input type="text" name="name" id="name" required></p>
+                        <p>Description: <textarea id="desc" name="desc" cols="30" rows="10"></textarea></p>
+                        <p>Price per unit: $<input id="price" type="number" min="0.01" step="0.01" name="unit_price" required></p>
+                        <p>Categories: 
+                            <select id= "cat" name="category">
+                                {% for category in categories %}
+                                    <option value = '{{ category.id }}' >{{category.title}}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                        <p>Inventory Count: <input type="number" id="count" name="inventory_count" value=''></p>
+                        <p>Image: <input type='text' name='main_pic' id="img"  ></p>
+                        <input type="submit" value="Update" class="btn btn-danger" id='updated_prod_btn'>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 
 
-        <script type = "text/javascript">
-                $('#form_edit_prod').on('show.bs.modal', function (event) {
-                    console.log("button pressed");
-                    var button = $(event.relatedTarget) // Button that triggered the modal
-                    var id = button.data('id') // Extract info from data-* attributes
-                    var name = button.data('name')
-                    var desc = button.data('desc')
-                    var cat = button.data('cat')
-                    var count = button.data('count')
-                    var img = button.data('img')
+    <script type = "text/javascript">
+        $('#form_edit_prod').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) 
+            var id = button.data('id') 
+            var name = button.data('name')
+            var desc = button.data('desc')
+            var price = button.data('price')
+            var cat = button.data('cat')
+            var count = button.data('count')
+            var img = button.data('img')
 
-                    var modal = $(this)
-                    modal.find('.modal-title').text('Edit ' + name)
-                    modal.find('.modal-body input #id').val(id)
-                    modal.find('.modal-body input#name').val(name)
-                    modal.find('.modal-body input#desc').val(desc)
-                    modal.find('.modal-body input#cat').val(cat)
-                    modal.find('.modal-body input#count').val(count)
-                    modal.find('.modal-body input#img').val(img)
-                })
-            </script>
+            var modal = $(this)
+            modal.find('.modal-title').text('Edit ' + name)
+            modal.find('.modal-body input#prod_id').val(id)
+            modal.find('.modal-body input#name').val(name)
+            modal.find('.modal-body textarea#desc').val(desc)
+            modal.find('.modal-body input#price').val(price)
+            modal.find('.modal-body select#cat').val(cat)
+            modal.find('.modal-body input#count').val(count)
+            modal.find('.modal-body input#img').val(img)
+        })
+    </script>
+
 </body>
 </html>

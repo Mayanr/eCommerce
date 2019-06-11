@@ -64,15 +64,18 @@
         <p>{{selected_prod.desc}}</p>
         <p>price: {{selected_prod.price}}</p>
 
-        <form action="/addtoCart/1" method='POST'>
+        <form action="/addtoCart/{{ selected_prod.id }}" method='POST'>
             {% csrf_token %}
             <p>Quantity: <select>
-                {% for i in i|rjust:20 %}
-                    <option value='{{ forloop.counter }}'> {{ forloop.counter }}
-                        <!-- (${% widthratio forloop.counter 1 3.99 %}) -->
-                    </option>
-                {% endfor %}
-            </select>
+                <ol>
+                    {% for price in price_list %}
+                    <li>
+                        <option value='{{ forloop.counter }}'> {{ forloop.counter }} ${{ price }}
+                        </option>
+                    </li>
+                    {% endfor %}
+                </ol>
+           </select>
         </p>
             <input type="submit">
         </form>
