@@ -56,8 +56,8 @@
             }
             div#featured_prods {
                 display: inline-block;
-                width: 300px;
-                height: 300px;
+                width: 350px;
+                height: 400px;
                 padding-top: 15px;
             }
         </style>
@@ -65,7 +65,7 @@
     <body>
         <header>
             <p>eCommerce- Store Name!</p>
-            <a href='/carts' id="cart">Shopping Cart()</a>
+            <a href='/cart_contents' id="cart">Shopping Cart ({{cart_count}})</a>
         </header>
         <a href="/" id='home_link'>Home</a>
         <aside>
@@ -90,7 +90,7 @@
             {% for p in prods_in_cat %}
             <div id='featured_prods'>
                 <a href="/products/show/{{ p.id }}" style="text-decoration: none;">
-                    <img src="{{p.main_img}}" alt="{{p.name}}" height="200" width="200">
+                    <img src="{{p.main_img}}" alt="{{p.name}}" height="200" >
                     <br>
                     {{p.name}}
                     ${{p.price}}

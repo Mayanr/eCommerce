@@ -46,8 +46,13 @@
 <body>
     <header>
         <p>eCommerce- Store Name!</p>
-        <a href='/carts' id="cart">Shopping Cart()</a>
+        <a href='/cart_contents' id="cart">Shopping Cart ({{cart_count}})</a>
     </header>
+    <nav>
+        <a href="/">Home</a>
+        <!-- <a href='/products/category/{{ selected_prod.cat.id }}'>Go Back</a> -->
+    </nav>
+
     <h1> Items in your cart:</h1>
     <table id='width' class="table table-striped">
         <tr>
@@ -69,6 +74,10 @@
         <p>Total: {Sum of all totals}</p>
         <button><a href='/'> Continue Shopping</a></button>
     </div>
+
+    <button><a href='/empty_cart'> Empty Cart </a></button>
+
+
     <form action='process_payment' method="POST">
         {% csrf_token %}
         <h3>Shipping Address</h3>

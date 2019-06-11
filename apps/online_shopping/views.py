@@ -4,21 +4,18 @@ from .models import*
 import re
 import bcrypt
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-from PIL import Image
-from django import template
-
-register = template.Library()
-
-@register.filter(name='multiply')
-def multiply(value, arg):
-    return value * arg
-
-register.filter('multiply', multiply)
 
 
 def index(request):
+    if 'cart_' not in request.session:
+        request.session['cart_'] = []
+    else:
+        request.session['cart_']
+    print(request.session['cart_'])
+
     context = {
-        'categories' : Category.objects.order_by('title')
+        'categories' : Category.objects.order_by('title'),
+        'cart_count' : len(request.session['cart_'])
     }
     return render(request, "online_shopping/index.html", context)
 
@@ -26,7 +23,8 @@ def prods_category(request, cat_id):
     context = {
         'categories' : Category.objects.all().distinct(),
         'selected_cat' : Category.objects.get(id=cat_id).title,
-        'prods_in_cat' : Prod.objects.filter(cat = cat_id).values
+        'prods_in_cat' : Prod.objects.filter(cat = cat_id).values,
+        'cart_count' : len(request.session['cart_'])
     }
     return render(request, "online_shopping/products_category.html", context)
 
@@ -37,20 +35,47 @@ def prods_show(request, prod_id):
         pricingArr.append(i*thisProd.price)
     
     context= {
-         'selected_prod' : Prod.objects.get(id=prod_id),
-         'price_list' : pricingArr
+        'selected_prod' : Prod.objects.get(id=prod_id),
+        'price_list' : pricingArr,
+        'cart_count' : len(request.session['cart_'])
     }
     return render(request, "online_shopping/prods_show.html", context)
 
 def add_to_cart(request, prod_id):
-    # add to cart contents
-    # context= {
-    #      'selected_prod' : Prod.objects.get(id=prod_id),
-    # }
-    return redirect('/carts')
+    if 'cart_' not in request.session:
+        request.session['cart_'] = []
+    
+    # cart_count = request.session['cart_']
+    print(request.session['cart_'])
+    for i in range(int(request.POST['quant'])):
+        # cart_count = request.session['cart_']
+        request.session['cart_'].append(prod_id)
+    # print(request.session['cart_'])
+    print(request.session['cart_'])
+    print(len(request.session['cart_']))
+    request.session.modified = True
+    return redirect('/cart_contents')
 
 def shopping_cart(request):
-    return render(request, 'online_shopping/cart.html')
+    if 'cart_' not in request.session:
+        request.session['cart_'] = []
+    # cart_count = len(request.session['cart_'])
+    # print(len(request.session['cart_']))
+
+    context= {
+        # 'selected_prod' : Prod.objects.get(id=prod_id),
+        'cart_count' : len(request.session['cart_']),
+        'cart_contents' : Prod.objects.all()
+    }
+    return render(request, 'online_shopping/cart.html', context)
+
+def empty_cart(request):
+    # if 'cart_' not in request.session:
+    #     request.session['cart_'] = []
+    # request.session['cart'] = []
+    del request.session['cart_']
+    # request.session.clear()
+    return redirect('/cart_contents')
 
 def process_payment(request):
     pass

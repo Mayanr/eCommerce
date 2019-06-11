@@ -52,32 +52,34 @@
 <body>
     <header>
         <p>eCommerce- Store Name!</p>
-        <a href='/carts' id="cart">Shopping Cart()</a>
+        <a href='/cart_contents' id="cart">Shopping Cart ({{cart_count}})</a>
     </header>
-    <a href="/">Home</a> | 
-    <a href='/products/category/{{ selected_prod.cat.id }}'>Go Back</a>
-    <h1>{{ selected_prod.name }}</h1>
+    <nav>
+        <a href="/">Home</a> | 
+        <a href='/products/category/{{ selected_prod.cat.id }}'>Go Back</a>
+    </nav>
     <div id='image'>
-        <img src="{{selected_prod.main_img}}" alt="{{selected_prod.name}}" height="400" width="400">
+        <img src="{{selected_prod.main_img}}" alt="{{selected_prod.name}}" width="400" >
     </div>
     <div id='details'>
+        <h1>{{ selected_prod.name }}</h1>
         <p>{{selected_prod.desc}}</p>
-        <p>price: {{selected_prod.price}}</p>
+        <p>price: ${{selected_prod.price}}</p>
 
         <form action="/addtoCart/{{ selected_prod.id }}" method='POST'>
             {% csrf_token %}
-            <p>Quantity: <select>
+            <p>Quantity: <select name="quant">
                 <ol>
                     {% for price in price_list %}
                     <li>
-                        <option value='{{ forloop.counter }}'> {{ forloop.counter }} ${{ price }}
+                        <option value='{{ forloop.counter }}'> {{ forloop.counter }} (${{ price }})
                         </option>
                     </li>
                     {% endfor %}
                 </ol>
            </select>
         </p>
-            <input type="submit">
+            <input type="submit" value="Add to Cart" class="btn btn-primary">
         </form>
     </div>
     <h2>Similar Items</h2>

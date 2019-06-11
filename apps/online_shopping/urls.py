@@ -9,7 +9,7 @@ urlpatterns = [
     url(r'^products/category/(?P<cat_id>\d+)$', views.prods_category),
     url(r'^products/show/(?P<prod_id>\d+)$', views.prods_show),
     url(r'^addtoCart/(?P<prod_id>\d+)$', views.add_to_cart),
-    url(r'^carts$', views.shopping_cart),
+    url(r'^cart_contents$', views.shopping_cart),
     url(r'^process_payment$', views.process_payment),
     url(r'^confirmation$', views.confirmation),
     url(r'^admin$', views.admin_login),
@@ -21,8 +21,7 @@ urlpatterns = [
     url(r'^dashboard/delete/(?P<prod_id>\d+)$', views.delete_prod),
     # url(r'^dashboard/update/(?P<prod_id>\d+)$', views.update_prod),
     url(r'^update_prod$', views.update_prod),
-
-
+    url(r'^empty_cart$', views.empty_cart)
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

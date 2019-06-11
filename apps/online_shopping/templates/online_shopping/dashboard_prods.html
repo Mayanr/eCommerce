@@ -84,7 +84,7 @@
 
     <table class="table table-striped">
         <tr>
-            <th scope="col">Picture</th>
+            <th scope="col">Image</th>
             <th scope="col">ID</th>
             <th scope="col">Name</th>
             <th scope='col'>Category</th>
@@ -96,7 +96,7 @@
 
         {% for prod in products %}
         <tr>
-            <td><img src="{{ prod.main_img }}" alt="{{prod.name}}" height="100" width="100"></td>
+            <td><img src="{{ prod.main_img }}" alt="{{prod.name}}" width="100"></td>
             <td>{{ prod.id }}</td>
             <td>{{ prod.name }}</td>
             <td>{{ prod.cat.title }}, {{ prod.cat.id }}</td>
@@ -140,7 +140,7 @@
                     <!-- <p>or add new category: <input type="text"  name="category" ></p> -->
                     <p>Inventory Count: <input type="number" name="inventory_count"></p>
                     <p>Image: <input type='text' name='main_pic'></p>
-                    <input type="submit" value="Add Product" class="btn btn-danger" id='add_prod_btn'>
+                    <input type="submit" value="Add Product" class="btn btn-primary" id='add_prod_btn'>
                 </form>
                 </div>
             </div>
@@ -176,7 +176,7 @@
                         </p>
                         <p>Inventory Count: <input type="number" id="count" name="inventory_count" value=''></p>
                         <p>Image: <input type='text' name='main_pic' id="img"  ></p>
-                        <input type="submit" value="Update" class="btn btn-danger" id='updated_prod_btn'>
+                        <input type="submit" value="Update" class="btn btn-primary" id='updated_prod_btn'>
                     </form>
                 </div>
             </div>
