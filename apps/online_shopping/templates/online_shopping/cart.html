@@ -71,14 +71,37 @@
         <!-- { endfor } -->
         {% for prod in prods %}
             <tr>
-                <td>{{ prod.name }}, {{ prod.id }} </td>
+                <td>
+                    <a href='/products/show/{{ prod.id }}' >
+                    <img src="{{ prod.main_img }}" alt="{{ prod.name }}, {{ prod.id }}" width="100">
+                    <br>
+                    {{ prod.name }}, {{ prod.id }}
+                    </a> 
+                </td>
                 <td>${{ prod.price }} </td>
                 <td>
                     {% for x in cart_contents %}
                         {% if x.id == prod.id %}
-                            {{ x.quant }}
+                            <!-- {{ x.quant }} -->     
+                <input type="hidden" name="prod_id" value="{{ prod.id }}">
+                <select name="quant">
+                {% for i in price_list %}
+                    {% for j in i %}
+                        {% if j.id == prod.id %}
+                            {% for p in j.price_list %}
+                                {% if p == x.total %}
+                                    <option selected="selected" value='{{ forloop.counter }}'> {{ forloop.counter }} (${{ p|floatformat:2 }})</option>
+                                {% else %}
+                                    <option value='{{ forloop.counter }}'> {{ forloop.counter }} (${{ p|floatformat:2 }})</option>
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
                     {% endfor %}
+                {% endfor %}
+                </select>
+                {% endif %}
+                {% endfor %}
+
                     | <a href=''>update</a> | <a href=''>delete</a></td>
                 <td>
                     {% for x in cart_contents %}
@@ -91,11 +114,8 @@
         {% endfor %}
     </table>
 
-   
-
-               
     <div id='below_table'>
-        <p>Total: {Sum of all totals}</p>
+        <p style="font-weight: bold; border:1px;">Total: ${{ cart_sumTotal_cost|floatformat:2 }}</p>
         <button><a href='/'> Continue Shopping</a></button>
         <br>
         <button><a href='/empty_cart'> Empty Cart </a></button>

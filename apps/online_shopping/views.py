@@ -82,19 +82,35 @@ def shopping_cart(request):
 
     item_ids_in_cart = []
     cart_count = 0
+    cart_sumTotal_cost = 0
+    allPrices = []
     for x in request.session['cart_']:
         cart_count += x['quant']
         item_ids_in_cart.append(str(x['id']))
         x['total'] = x['quant']*x['ppu']
-    
+        cart_sumTotal_cost += x['total']
+        price_list=[]
+        pricingArr = []
+        pricingArr.append({'id': x['id'], 'price_list': price_list})
+        for i in range(1,21):
+            price_list.append(i*x['ppu'])
+        allPrices.append(pricingArr)
+
 
     context= {
         'cart_count' : cart_count,
+        'cart_sumTotal_cost': cart_sumTotal_cost,
+        'price_list' : allPrices,
         'cart_contents' : request.session['cart_'],
         'prods' : Prod.objects.filter(id__in=item_ids_in_cart),
         'allProds' : Prod.objects.all()
     }
     return render(request, 'online_shopping/cart.html', context)
+
+
+def edit_cart(request):
+    pass
+
 
 def empty_cart(request):
     # if 'cart_' not in request.session:
