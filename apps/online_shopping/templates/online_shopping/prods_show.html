@@ -6,47 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Prod Details</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'online_shopping/style.css' %}">
+
     <style>
-    body {
-        padding: 10px;
-    }
-    div#image{
-        display: inline-block;
-        width: 30%;
-        padding: 10px;
-        vertical-align: top;
-    }
-    div#details{
-        display: inline-block;
-        width: 60%;
-        padding: 10px;
-    }
-    h1, h2 {
-        color:navy;
-    }
-    header p {
-        display: inline-block;
-        color: white;
-        padding-left: 3px;
-    }
-    header {
-        background-color: navy;
-    }
-    p#cart {
-        margin-left: 70%;
-    }
-    header p, header a {
-        display: inline-block;
-        color: white;
-        padding-left: 3px;
-    }
-    a#cart {
-        margin-left: 70%;
-    }
-    a#cart:hover {
-        color: lightblue;
-        text-decoration: none;
-    }
+    
     </style>
 </head>
 <body>

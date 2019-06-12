@@ -18,7 +18,10 @@ class Additional_ImgManager(models.Manager):
 
 class OrderManager(models.Manager):
     def basic_validator(self, postData):
-        pass
+        errors = {}
+        if len(postData['bill_fname']) < 4:
+            errors["bill_fname"] = "First Name should be at least 2 letters (and only letters)"
+        return errors
 
 class Order_ItemManager(models.Manager):
     def basic_validator(self, postData):

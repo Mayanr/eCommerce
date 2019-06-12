@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Checkout</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'online_shopping/style.css' %}">
+
+</head>
+<body>
+    <header>
+        <p>eCommerce- Store Name!</p>
+        <a href='/cart_contents' id="cart">Shopping Cart ({{cart_count}})</a>
+    </header>
+    <nav>
+        <a href="/">Home</a>
+        <a href='/cart_contents'>Go Back</a>
+    </nav>
+
+    <h1> Items in your cart:</h1>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+        <form action='process_payment' method="POST">
+                {% csrf_token %}
+            
+                <h3>Shipping Address</h3>
+                    <p>First Name: <input type="text" name='ship_fname' ></p>
+                    <p>Last Name: <input type="text" name='ship_lname' ></p>
+                    <p>Email: <input type="email" name='email' ></p>
+                    <p>Address: <input type="text" name='ship_address' ></p>
+                    <p>Address 2: <input type="text" name='ship_address2' ></p>
+                    <p>City: <input type="text" name='ship_city' ></p>
+                    <p>State: <input type="text" name='ship_state' ></p>
+                    <p>Zipcode: <input type="number" name='ship_zip' ></p>
+        
+        
+                <h3>Billing Address</h3>
+                    <p><input type="checkbox" name="same" > Same as Shipping</p>
+                    <p>First Name: <input type="text" name='bill_fname' ></p>
+                    <p>Last Name: <input type="text" name='bill_lname' ></p>
+                    <p>Address: <input type="text" name='bill_address' ></p>
+                    <p>Address 2: <input type="text" name='bill_address2' ></p>
+                    <p>City: <input type="text" name='bill_city' ></p>
+                    <p>State: <input type="text" name='bill_state' ></p>
+                    <p>Zipcode: <input type="number" name='bill_zip' ></p>
+        
+                    <input type="submit" value="Place My Order" class="btn btn-primary" id='updated_prod_btn'>
+            </form>
+    
+</body>
+</html>

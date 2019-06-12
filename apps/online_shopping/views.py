@@ -68,8 +68,6 @@ def add_to_cart(request, prod_id):
     
     request.session['cart_'].append({'id':int(prod_id), 'quant': int(request.POST['quant']), 'ppu': float(request.POST['price']), 'total': 0.00})
 
-    # request.session['cart_']['total']=request.session['cart_']['ppu']*request.session['cart_']['quant']
-
     print(request.session['cart_'])
     request.session.modified = True
     return redirect('/cart_contents')
@@ -96,7 +94,6 @@ def shopping_cart(request):
             price_list.append(i*x['ppu'])
         allPrices.append(pricingArr)
 
-
     context= {
         'cart_count' : cart_count,
         'cart_sumTotal_cost': cart_sumTotal_cost,
@@ -108,23 +105,72 @@ def shopping_cart(request):
     return render(request, 'online_shopping/cart.html', context)
 
 
-def edit_cart(request):
-    pass
+def edit_cart(request, prod_id):
+    for item in request.session['cart_']:
+        if item['id'] == int(prod_id):
+            item['quant'] = int(request.POST['new_quant'])
+            request.session.modified = True
+            return redirect('/cart_contents')
 
+def remove_from_cart(request, prod_id):
+    for item in request.session['cart_']:
+        if item['id'] == int(prod_id):
+            request.session['cart_'].remove(item)
+            request.session.modified = True
+            return redirect('/cart_contents')
+
+def checkout(request):
+    cart_count = 0
+    for x in request.session['cart_']:
+        cart_count += x['quant']
+    
+    context = {
+        'cart_count' : cart_count
+    }
+    return render(request, 'online_shopping/checkout.html', context)
 
 def empty_cart(request):
-    # if 'cart_' not in request.session:
-    #     request.session['cart_'] = []
-    # request.session['cart'] = []
     del request.session['cart_']
-    # request.session.clear()
     return redirect('/cart_contents')
 
+
 def process_payment(request):
-    pass
+    errors = Order.objects.basic_validator(request.POST)
+    if len(errors) > 0:
+        for key, value in errors.items():
+            messages.error(request, value)
+            print('entries no good')
+    else:
+        email = request.POST['email']
+
+        bill_fname = request.POST['bill_fname']
+        bill_lname = request.POST['bill_lname']
+        bill_address = request.POST['bill_address']
+        bill_address2 = request.POST['bill_address2']
+        bill_city = request.POST['bill_city']
+        bill_state = request.POST['bill_state']
+        bill_zip = request.POST['bill_zip']
+
+        ship_fname = request.POST['ship_fname']
+        ship_lname = request.POST['ship_lname']
+        ship_address = request.POST['ship_address']
+        ship_address2 = request.POST['ship_address2']
+        ship_city = request.POST['ship_city']
+        ship_state = request.POST['ship_state']
+        ship_zip = request.POST['ship_zip']
+
+        status = Status.objects.get(id=1)
+        # add_to_cat = Category.objects.get(id = c)
+        ## new_cat = Category.objects.create(title = c)
+        newOrder = Order.objects.create(email = email, b_fname = bill_fname, b_lname = bill_lname, b_address = bill_address, b_address2 = bill_address2, b_city = bill_city, b_state = bill_state, b_zip = bill_zip, sh_fname = ship_fname, sh_lname = ship_lname, sh_address = ship_address, sh_address2 = ship_address2, sh_city = ship_city, sh_state = ship_state, sh_zip = ship_zip, status = status)
+
+        # Order_Item.objects.create(includes_prod = , quant = , belongs_to_shopper = newOrder)
+        return redirect('/confirmation')
+    return redirect('/checkout')
+
 
 def confirmation(request):
-    pass
+    return render(request, 'online_shopping/confirmation.html')
     # return render([HTML CONFIRMATION PAGE])
 
 # --------------------admin routes---------------------------

@@ -6,41 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Shopping Cart</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'online_shopping/style.css' %}">
     <style>
-        body {
-            padding: 10px;
-        }
-        h1 {
-            color:navy;
-        }
-        table#width, form {
-            max-width: 70%;
-            margin: 0 auto;
-            margin-top: 20px;
-        }
-        #below_table {
-            margin-left: 70%;
-            margin-bottom: 30px;
-        }
-        a:hover {
-            text-decoration: none;
-            color: navy;
-        }
-        header p, header a {
-        display: inline-block;
-        color: white;
-        padding-left: 3px;
-        }
-        header {
-            background-color: navy;
-        }
-        a#cart {
-            margin-left: 70%;
-        }
-        a#cart:hover {
-            color: lightblue;
-            text-decoration: none;
-        }
+
     </style>
 </head>
 <body>
@@ -70,12 +40,14 @@
         </tr> -->
         <!-- { endfor } -->
         {% for prod in prods %}
+        <form action='editCart/{{ prod.id }}' method='POST'>
+            {% csrf_token %}
             <tr>
                 <td>
                     <a href='/products/show/{{ prod.id }}' >
                     <img src="{{ prod.main_img }}" alt="{{ prod.name }}, {{ prod.id }}" width="100">
                     <br>
-                    {{ prod.name }}, {{ prod.id }}
+                    {{ prod.name }}
                     </a> 
                 </td>
                 <td>${{ prod.price }} </td>
@@ -84,7 +56,7 @@
                         {% if x.id == prod.id %}
                             <!-- {{ x.quant }} -->     
                 <input type="hidden" name="prod_id" value="{{ prod.id }}">
-                <select name="quant">
+                <select name="new_quant">
                 {% for i in price_list %}
                     {% for j in i %}
                         {% if j.id == prod.id %}
@@ -102,7 +74,8 @@
                 {% endif %}
                 {% endfor %}
 
-                    | <a href=''>update</a> | <a href=''>delete</a></td>
+                <br>
+                <input type="submit" value="Update" class="btn btn-primary btn-xs"></a> | <a href='removeFromCart/{{ prod.id }}' class="btn btn-primary btn-xs">Remove</a></td>
                 <td>
                     {% for x in cart_contents %}
                         {% if x.id == prod.id %}
@@ -111,38 +84,20 @@
                     {% endfor %}   
                 </td>
             </tr>
+        </form>
         {% endfor %}
     </table>
 
     <div id='below_table'>
         <p style="font-weight: bold; border:1px;">Total: ${{ cart_sumTotal_cost|floatformat:2 }}</p>
-        <button><a href='/'> Continue Shopping</a></button>
+
+        <!-- <input type="submit" value="Proceed to Checkout" class="btn btn-primary" id='updated_prod_btn'> -->
+        <a href="checkout" class="btn btn-primary">Proceed to Checkout</a>
         <br>
-        <button><a href='/empty_cart'> Empty Cart </a></button>
+        <a href='/' class="btn btn-primary"> Continue Shopping</a>
+        <br>
+        <a href='/empty_cart' class="btn btn-primary"> Empty Cart </a>
     </div>
 
-
-
-    <form action='process_payment' method="POST">
-        {% csrf_token %}
-        <h3>Shipping Address</h3>
-            <p>First Name: <input type="text" name='ship_fname' ></p>
-            <p>Last Name: <input type="text" name='ship_lname' ></p>
-            <p>Address: <input type="text" name='ship_address' ></p>
-            <p>Address 2: <input type="text" name='ship_address2' ></p>
-            <p>State: <input type="text" name='ship_state' ></p>
-            <p>zipcode: <input type="number" name='ship_zip' ></p>
-
-
-        <h3>Billing Address</h3>
-            <p><input type="checkbox" name="same" > Same as Shipping</p>
-            <p>First Name: <input type="text" name='bill_fname' ></p>
-            <p>Last Name: <input type="text" name='bill_lname' ></p>
-            <p>Address: <input type="text" name='bill_address' ></p>
-            <p>Address 2: <input type="text" name='bill_address2' ></p>
-            <p>State: <input type="text" name='bill_state' ></p>
-            <p>zipcode: <input type="number" name='bill_zip' ></p>
-            {Stripe code to enable card payment}
-    </form>
 </body>
 </html>
