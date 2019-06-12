@@ -11,61 +11,88 @@ def index(request):
         request.session['cart_'] = []
     else:
         request.session['cart_']
-    print(request.session['cart_'])
 
+    cart_count = 0
+    for x in request.session['cart_']:
+        cart_count += x['quant']
+    
     context = {
         'categories' : Category.objects.order_by('title'),
-        'cart_count' : len(request.session['cart_'])
+        'cart_count' : cart_count
     }
     return render(request, "online_shopping/index.html", context)
 
+
 def prods_category(request, cat_id):
+    cart_count = 0
+    for x in request.session['cart_']:
+        cart_count += x['quant']
+
     context = {
         'categories' : Category.objects.all().distinct(),
         'selected_cat' : Category.objects.get(id=cat_id).title,
         'prods_in_cat' : Prod.objects.filter(cat = cat_id).values,
-        'cart_count' : len(request.session['cart_'])
+        'cart_count' : cart_count
     }
     return render(request, "online_shopping/products_category.html", context)
+
 
 def prods_show(request, prod_id):
     thisProd = Prod.objects.get(id=prod_id)
     pricingArr = []
     for i in range(1,21):
         pricingArr.append(i*thisProd.price)
-    
+
+    cart_count = 0
+    for x in request.session['cart_']:
+        cart_count += x['quant']
+
     context= {
         'selected_prod' : Prod.objects.get(id=prod_id),
         'price_list' : pricingArr,
-        'cart_count' : len(request.session['cart_'])
+        'cart_count' : cart_count
     }
     return render(request, "online_shopping/prods_show.html", context)
+
 
 def add_to_cart(request, prod_id):
     if 'cart_' not in request.session:
         request.session['cart_'] = []
+    print(request.session['cart_'])
+
+    for item in request.session['cart_']:
+        if item['id'] == int(prod_id):
+            item['quant'] += int(request.POST['quant'])
+            request.session.modified = True
+            return redirect('/cart_contents')
     
-    # cart_count = request.session['cart_']
+    request.session['cart_'].append({'id':int(prod_id), 'quant': int(request.POST['quant']), 'ppu': float(request.POST['price']), 'total': 0.00})
+
+    # request.session['cart_']['total']=request.session['cart_']['ppu']*request.session['cart_']['quant']
+
     print(request.session['cart_'])
-    for i in range(int(request.POST['quant'])):
-        # cart_count = request.session['cart_']
-        request.session['cart_'].append(prod_id)
-    # print(request.session['cart_'])
-    print(request.session['cart_'])
-    print(len(request.session['cart_']))
     request.session.modified = True
     return redirect('/cart_contents')
+
 
 def shopping_cart(request):
     if 'cart_' not in request.session:
         request.session['cart_'] = []
-    # cart_count = len(request.session['cart_'])
-    # print(len(request.session['cart_']))
+    print(request.session['cart_'])
+
+    item_ids_in_cart = []
+    cart_count = 0
+    for x in request.session['cart_']:
+        cart_count += x['quant']
+        item_ids_in_cart.append(str(x['id']))
+        x['total'] = x['quant']*x['ppu']
+    
 
     context= {
-        # 'selected_prod' : Prod.objects.get(id=prod_id),
-        'cart_count' : len(request.session['cart_']),
-        'cart_contents' : Prod.objects.all()
+        'cart_count' : cart_count,
+        'cart_contents' : request.session['cart_'],
+        'prods' : Prod.objects.filter(id__in=item_ids_in_cart),
+        'allProds' : Prod.objects.all()
     }
     return render(request, 'online_shopping/cart.html', context)
 

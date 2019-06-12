@@ -62,20 +62,45 @@
             <th scope="col">Total</th>
         </tr>
         <!-- { for prod in yourCart } -->
-        <tr>
+        <!-- <tr>
             <td>testing</td>
             <td>$3.99</td>
             <td>2 | <a href=''>update</a> | <a href=''>delete</a></td>
             <td>mult price * quant</td>
-        </tr>
+        </tr> -->
         <!-- { endfor } -->
+        {% for prod in prods %}
+            <tr>
+                <td>{{ prod.name }}, {{ prod.id }} </td>
+                <td>${{ prod.price }} </td>
+                <td>
+                    {% for x in cart_contents %}
+                        {% if x.id == prod.id %}
+                            {{ x.quant }}
+                        {% endif %}
+                    {% endfor %}
+                    | <a href=''>update</a> | <a href=''>delete</a></td>
+                <td>
+                    {% for x in cart_contents %}
+                        {% if x.id == prod.id %}
+                            ${{ x.total|floatformat:2 }}
+                        {% endif %}
+                    {% endfor %}   
+                </td>
+            </tr>
+        {% endfor %}
     </table>
+
+   
+
+               
     <div id='below_table'>
         <p>Total: {Sum of all totals}</p>
         <button><a href='/'> Continue Shopping</a></button>
+        <br>
+        <button><a href='/empty_cart'> Empty Cart </a></button>
     </div>
 
-    <button><a href='/empty_cart'> Empty Cart </a></button>
 
 
     <form action='process_payment' method="POST">
