@@ -199,8 +199,23 @@ def confirmation(request):
 def admin_login(request):
     return render(request, 'online_shopping/admin.html')
 
+# password NEVER stored in the views file! Generally password (hashed) is stored securely in the database. The following lines of code are here solely to set up a single log-in for this demo site. The 'verify_admin' view is to demonstrate hasing and validating passwords, securely.
+
+#this creds Dictionary is holding the log-in credentials- this would normally be referenced in a db. 
+creds = {'user_email': "test@outlook.com", 'psswrd': bcrypt.hashpw('mayan'.encode(), bcrypt.gensalt()) }
+
+#here we'll verify the e-mail belongs to an existing user, and subsequently check whether the password matches the hashed password attached to the user.
 def verify_admin(request):
-    return redirect('/dashboard/orders')
+    if request.POST['admin_email']== creds['user_email']:
+        if bcrypt.checkpw(request.POST['admin_pw'].encode(), creds['psswrd']):
+            return redirect('/dashboard/orders')
+        else: 
+            messages.error(request, 'Invalid Login Credentials')
+            return redirect('/admin')
+    else:
+        messages.error(request, 'Invalid Login Credentials')
+        return redirect('/admin')
+    return redirect('/admin')
 
 def dashboard_orders(request): 
     context = {
