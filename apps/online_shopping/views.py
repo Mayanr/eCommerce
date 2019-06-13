@@ -196,18 +196,21 @@ def confirmation(request):
 
 # --------------------admin routes---------------------------
 
+
 def admin_login(request):
-    return render(request, 'online_shopping/admin.html')
+    return render(request, 'online_shopping/admin.html')  
+
 
 # password NEVER stored in the views file! Generally password (hashed) is stored securely in the database. The following lines of code are here solely to set up a single log-in for this demo site. The 'verify_admin' view is to demonstrate hasing and validating passwords, securely.
 
 #this creds Dictionary is holding the log-in credentials- this would normally be referenced in a db. 
-creds = {'user_email': "test@outlook.com", 'psswrd': bcrypt.hashpw('mayan'.encode(), bcrypt.gensalt()) }
+creds = {'id': 1, 'user_email': "test@outlook.com", 'psswrd': bcrypt.hashpw('demo_login'.encode(), bcrypt.gensalt()) }
 
 #here we'll verify the e-mail belongs to an existing user, and subsequently check whether the password matches the hashed password attached to the user.
 def verify_admin(request):
     if request.POST['admin_email']== creds['user_email']:
         if bcrypt.checkpw(request.POST['admin_pw'].encode(), creds['psswrd']):
+            request.session['logged_in'] = creds['id']
             return redirect('/dashboard/orders')
         else: 
             messages.error(request, 'Invalid Login Credentials')
@@ -215,37 +218,58 @@ def verify_admin(request):
     else:
         messages.error(request, 'Invalid Login Credentials')
         return redirect('/admin')
+
+
+def admin_logout(request):
+    del request.session['logged_in']
     return redirect('/admin')
 
-def dashboard_orders(request): 
-    context = {
-        'orders' : Order.objects.all(),
-    }
-    return render(request, 'online_shopping/dashboard.html', context)
+
+def dashboard_orders(request):
+    if 'logged_in' in request.session:
+        context = {
+            'orders' : Order.objects.all(),
+        }
+        return render(request, 'online_shopping/dashboard.html', context)
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
+        return redirect('/admin')
+
 
 def dashboard_prods(request):
-    context = {
-        'products' : Prod.objects.order_by('name'),
-        'categories' : Category.objects.all(),
-        # 'order_by_name' : Prod.objects.order_by('name')
-    }
-    return render(request, 'online_shopping/dashboard_prods.html', context)
+    if 'logged_in' in request.session:
+        context = {
+            'products' : Prod.objects.order_by('name'),
+            'categories' : Category.objects.all(),
+            # 'order_by_name' : Prod.objects.order_by('name')
+        }
+        return render(request, 'online_shopping/dashboard_prods.html', context)
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
+        return redirect('/admin')
+
 
 def orders_show(request, order_id):
-    context= {
-        'selected_order' : Order.objects.get(id=order_id),
-        'order_details' : Order_Item.objects.filter(belongs_to_shopper=order_id)
-    }
-    return render(request, "online_shopping/orders_show.html", context)
+    if 'logged_in' in request.session:
+        context= {
+            'selected_order' : Order.objects.get(id=order_id),
+            'order_details' : Order_Item.objects.filter(belongs_to_shopper=order_id)
+        }
+        return render(request, "online_shopping/orders_show.html", context)
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
+        return redirect('/admin')
+
 
 def add_prod(request):
-    errors = Prod.objects.basic_validator(request.POST)
-    if len(errors) > 0:
-        for key, value in errors.items():
-            messages.error(request, value)
-            print('entries no good')
-        return redirect('/dashboard/prods')
-    else:
+    if 'logged_in' in request.session:
+        # errors = Prod.objects.basic_validator(request.POST)
+        # if len(errors) > 0:
+        #     for key, value in errors.items():
+        #         messages.error(request, value)
+        #         print('entries no good')
+        #     return redirect('/dashboard/prods')
+        # else:
         n = request.POST['name']
         d = request.POST['desc']
         p = request.POST['unit_price']
@@ -254,22 +278,31 @@ def add_prod(request):
         count = request.POST['inventory_count']
         add_to_cat = Category.objects.get(id = c)
         Prod.objects.create(name = n, desc = d, price = p, cat = add_to_cat, count = count, main_img = img)
-    return redirect('/dashboard/prods')
-
-def delete_prod(request, prod_id):
-    Prod.objects.filter(id= prod_id).delete()
-    return redirect('/dashboard/prods')
-
-def update_prod(request):
-    editing_prod = Prod.objects.get(id=request.POST['prod_id'])
-    print(editing_prod.name)
-    errors = Prod.objects.basic_validator(request.POST)
-    if len(errors) > 0:
-        for key, value in errors.items():
-            messages.error(request, value)
-            print('entries no good')
         return redirect('/dashboard/prods')
     else:
+        messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
+        return redirect('/admin')
+
+
+def delete_prod(request, prod_id):
+    if 'logged_in' in request.session:
+        Prod.objects.filter(id= prod_id).delete()
+        return redirect('/dashboard/prods')
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
+        return redirect('/admin')
+
+
+def update_prod(request):
+    if 'logged_in' in request.session:
+        editing_prod = Prod.objects.get(id=request.POST['prod_id'])
+        # errors = Prod.objects.basic_validator(request.POST)
+    # if len(errors) > 0:
+    #     for key, value in errors.items():
+    #         messages.error(request, value)
+    #         print('entries no good')
+    #     return redirect('/dashboard/prods')
+    # else:
         editing_prod.name = request.POST['name']
         editing_prod.desc = request.POST['desc']
         editing_prod.price = request.POST['unit_price']
@@ -279,4 +312,7 @@ def update_prod(request):
         editing_prod.main_img = request.POST['main_pic']
         editing_prod.count = request.POST['inventory_count']
         editing_prod.save()
-    return redirect('/dashboard/prods')
+        return redirect('/dashboard/prods')
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
+        return redirect('/admin')
