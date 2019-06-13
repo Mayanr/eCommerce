@@ -168,20 +168,19 @@ def process_order(request):
         ship_state = request.POST['ship_state']
         ship_zip = request.POST['ship_zip']
 
-        # status = Status.objects.get(id=1)
+        total_cost = request.POST['total_cost']
+        status = Status.objects.get(id=1)
         # add_to_cat = Category.objects.get(id = c)
         # new_cat = Category.objects.create(title = c)
-        # new_order = Order.objects.create(email = email, b_fname = bill_fname, b_lname = bill_lname, b_address = bill_address, b_address2 = bill_address2, b_city = bill_city, b_state = bill_state, b_zip = bill_zip, sh_fname = ship_fname, sh_lname = ship_lname, sh_address = ship_address, sh_address2 = ship_address2, sh_city = ship_city, sh_state = ship_state, sh_zip = ship_zip, status = status)
+        new_order = Order.objects.create(email = email, b_fname = bill_fname, b_lname = bill_lname, b_address = bill_address, b_address2 = bill_address2, b_city = bill_city, b_state = bill_state, b_zip = bill_zip, sh_fname = ship_fname, sh_lname = ship_lname, sh_address = ship_address, sh_address2 = ship_address2, sh_city = ship_city, sh_state = ship_state, sh_zip = ship_zip, total_cost = total_cost, status = status)
         for key, value in request.POST.lists():
             print(key, value)
             if key=='prod':
                 prods = value
             if key=='quant':
                 quant = value
-        new_order = Order.objects.get(id=1)
-        print(prods, quant)
+        # new_order = Order.objects.get(id=1)
         for p,q in zip(prods,quant):
-            # p=int(p)
             print("p is qual to ", p, "and q is" , q)
             ordered_prod = Prod.objects.get(id=p)
             Order_Item.objects.create(includes_prod = ordered_prod, quant = q, belongs_to_shopper = new_order)
@@ -202,11 +201,19 @@ def verify_admin(request):
     return redirect('/dashboard/orders')
 
 def dashboard_orders(request): 
+    # all_orders = Order.objects.all()
+    # order_details = Order_Item.objects.all()
+    # for order in all_orders:
+    #     total_cost = 0
+    #     for detail in order_details:
+    #         print(detail.id)
+    #         this_prod = Prod.objects.get(id=str(detail.includes_prod.id))
+    #         total_cost += this_prod.price * detail.quant
+    #     print(total_cost)
+    #     order_details.append(total_cost)
 
     context = {
         'orders' : Order.objects.all(),
-        'order_details' : Order_Item.objects.all()
-
     }
     return render(request, 'online_shopping/dashboard.html', context)
 

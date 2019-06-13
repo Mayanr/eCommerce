@@ -68,8 +68,7 @@
                             <option value="in_process">order in process</option>
                         </select>
                     </form>
-                </td>
-               
+                </td>              
             </tr>
             <!-- { endfor } -->
 
@@ -81,7 +80,7 @@
                 <td>{{order.b_fname}} {{order.b_lname}}</td>
                 <td>{{order.created_at}}</td>
                 <td>{{order.b_address}}<br> {{order.b_address2}} <br> {{order.b_city}} {{order.b_state}} {{order.b_zip}}</td>
-                <td>Need to calculate</td>
+                <td>${{order.total_cost}}</td>
                 <td>
                     {% if order.status == 'shipped' %}
                     <form action="??" method='POST'>

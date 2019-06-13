@@ -82,6 +82,7 @@ class Order(models.Model):
     sh_state = models.CharField(max_length=2)
     sh_zip = models.IntegerField()
     email = models.CharField(max_length=245)
+    total_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
     status = models.ForeignKey(Status, related_name="status_label")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
