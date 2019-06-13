@@ -78,9 +78,9 @@
             {% for order in orders %}
             <tr>
                 <td><a href='/orders/show/{{order.id}}'>{{order.id}}</a></td>
-                <td>{{order.fname}} {{order.lname}}</td>
+                <td>{{order.b_fname}} {{order.b_lname}}</td>
                 <td>{{order.created_at}}</td>
-                <td>{{order.address}} </td>
+                <td>{{order.b_address}}<br> {{order.b_address2}} <br> {{order.b_city}} {{order.b_state}} {{order.b_zip}}</td>
                 <td>Need to calculate</td>
                 <td>
                     {% if order.status == 'shipped' %}

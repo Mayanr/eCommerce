@@ -23,7 +23,7 @@
         <a href='/cart_contents'>Go Back</a>
     </nav>
 
-    <h1> Items in your cart:</h1>
+    <h1> Checkout</h1>
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -32,9 +32,9 @@
     </ul>
     {% endif %}
     
-        <form action='process_payment' method="POST">
-                {% csrf_token %}
-            
+        <form action='process_order' method="POST">
+            {% csrf_token %}
+            <div class='order_form' >
                 <h3>Shipping Address</h3>
                     <p>First Name: <input type="text" name='ship_fname' ></p>
                     <p>Last Name: <input type="text" name='ship_lname' ></p>
@@ -57,7 +57,48 @@
                     <p>Zipcode: <input type="number" name='bill_zip' ></p>
         
                     <input type="submit" value="Place My Order" class="btn btn-primary" id='updated_prod_btn'>
-            </form>
+            </div>
+
+            <div class='order_form' id='order_summary'>
+                <table class="table table-striped">
+                    <tr>
+                        <th scope="col">Item</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                {% for prod in prods %}
+                    <tr>
+                        <td>
+                            <a href='/products/show/{{ prod.id }}' >
+                            <img src="{{ prod.main_img }}" alt="{{ prod.name }}, {{ prod.id }}" width="50">
+                            </a> 
+                            <input type="hidden" name="prod" value="{{ prod.id }}">
+                        </td>
+                        <td>
+                            {% for x in cart_contents %}
+                                {% if x.id == prod.id %}
+                                    {{ x.quant }}
+                                    <input type="hidden" name="quant" value="{{ x.quant }}">
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for x in cart_contents %}
+                                {% if x.id == prod.id %}
+                                    ${{ x.total|floatformat:2 }}
+                                {% endif %}
+                            {% endfor %} 
+                        </td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td> </td>
+                        <td> </td>
+                        <td scope="col" style="font-weight: bold;">Total: ${{ cart_sumTotal_cost|floatformat:2 }}</td>
+                    </tr>
+                </table>
+            </div>
+        </form>
     
 </body>
 </html>

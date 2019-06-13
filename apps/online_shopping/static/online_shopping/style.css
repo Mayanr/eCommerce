@@ -56,9 +56,9 @@ ul{
     margin: 0;
     padding: 0;
 }
-div#search, form {
+/* div#search, form {
     margin-left: 30% ;
-}
+} */
 
 /* formatting for products/categories/specific category ID page */
 aside{
@@ -108,4 +108,12 @@ div#details{
 div#details h1, div#details form {
     text-align: left;
     margin: 0;
+}
+
+/* formatting for checkout page */
+.order_form {
+    width: 48%;
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
 }

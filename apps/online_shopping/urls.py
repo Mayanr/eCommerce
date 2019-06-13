@@ -13,7 +13,7 @@ urlpatterns = [
     url(r'^removeFromCart/(?P<prod_id>\d+)$', views.remove_from_cart),
     url(r'^cart_contents$', views.shopping_cart),
     url(r'^checkout$', views.checkout),
-    url(r'^process_payment$', views.process_payment),
+    url(r'^process_order$', views.process_order),
     url(r'^confirmation$', views.confirmation),
     url(r'^admin$', views.admin_login),
     url(r'^verify_admin$', views.verify_admin),

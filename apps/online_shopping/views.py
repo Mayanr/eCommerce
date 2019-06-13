@@ -100,7 +100,7 @@ def shopping_cart(request):
         'price_list' : allPrices,
         'cart_contents' : request.session['cart_'],
         'prods' : Prod.objects.filter(id__in=item_ids_in_cart),
-        'allProds' : Prod.objects.all()
+        # 'allProds' : Prod.objects.all()
     }
     return render(request, 'online_shopping/cart.html', context)
 
@@ -121,11 +121,19 @@ def remove_from_cart(request, prod_id):
 
 def checkout(request):
     cart_count = 0
+    item_ids_in_cart = []
+    cart_sumTotal_cost = 0
     for x in request.session['cart_']:
         cart_count += x['quant']
+        item_ids_in_cart.append(str(x['id']))
+        x['total'] = x['quant']*x['ppu']
+        cart_sumTotal_cost += x['total']
     
     context = {
-        'cart_count' : cart_count
+        'cart_count' : cart_count,
+        'prods' : Prod.objects.filter(id__in=item_ids_in_cart),
+        'cart_contents' : request.session['cart_'],
+        'cart_sumTotal_cost': cart_sumTotal_cost
     }
     return render(request, 'online_shopping/checkout.html', context)
 
@@ -134,8 +142,9 @@ def empty_cart(request):
     return redirect('/cart_contents')
 
 
-def process_payment(request):
+def process_order(request):
     errors = Order.objects.basic_validator(request.POST)
+    print(request.POST)
     if len(errors) > 0:
         for key, value in errors.items():
             messages.error(request, value)
@@ -159,19 +168,30 @@ def process_payment(request):
         ship_state = request.POST['ship_state']
         ship_zip = request.POST['ship_zip']
 
-        status = Status.objects.get(id=1)
+        # status = Status.objects.get(id=1)
         # add_to_cat = Category.objects.get(id = c)
-        ## new_cat = Category.objects.create(title = c)
-        newOrder = Order.objects.create(email = email, b_fname = bill_fname, b_lname = bill_lname, b_address = bill_address, b_address2 = bill_address2, b_city = bill_city, b_state = bill_state, b_zip = bill_zip, sh_fname = ship_fname, sh_lname = ship_lname, sh_address = ship_address, sh_address2 = ship_address2, sh_city = ship_city, sh_state = ship_state, sh_zip = ship_zip, status = status)
+        # new_cat = Category.objects.create(title = c)
+        # new_order = Order.objects.create(email = email, b_fname = bill_fname, b_lname = bill_lname, b_address = bill_address, b_address2 = bill_address2, b_city = bill_city, b_state = bill_state, b_zip = bill_zip, sh_fname = ship_fname, sh_lname = ship_lname, sh_address = ship_address, sh_address2 = ship_address2, sh_city = ship_city, sh_state = ship_state, sh_zip = ship_zip, status = status)
+        for key, value in request.POST.lists():
+            print(key, value)
+            if key=='prod':
+                prods = value
+            if key=='quant':
+                quant = value
+        new_order = Order.objects.get(id=1)
+        print(prods, quant)
+        for p,q in zip(prods,quant):
+            # p=int(p)
+            print("p is qual to ", p, "and q is" , q)
+            ordered_prod = Prod.objects.get(id=p)
+            Order_Item.objects.create(includes_prod = ordered_prod, quant = q, belongs_to_shopper = new_order)
 
-        # Order_Item.objects.create(includes_prod = , quant = , belongs_to_shopper = newOrder)
         return redirect('/confirmation')
     return redirect('/checkout')
 
 
 def confirmation(request):
     return render(request, 'online_shopping/confirmation.html')
-    # return render([HTML CONFIRMATION PAGE])
 
 # --------------------admin routes---------------------------
 
@@ -181,9 +201,11 @@ def admin_login(request):
 def verify_admin(request):
     return redirect('/dashboard/orders')
 
-def dashboard_orders(request):
+def dashboard_orders(request): 
+
     context = {
         'orders' : Order.objects.all(),
+        'order_details' : Order_Item.objects.all()
 
     }
     return render(request, 'online_shopping/dashboard.html', context)
@@ -217,7 +239,6 @@ def add_prod(request):
         img = request.POST['main_pic']
         count = request.POST['inventory_count']
         add_to_cat = Category.objects.get(id = c)
-        # new_cat = Category.objects.create(title = c)
         Prod.objects.create(name = n, desc = d, price = p, cat = add_to_cat, count = count, main_img = img)
     return redirect('/dashboard/prods')
 
@@ -245,5 +266,3 @@ def update_prod(request):
         editing_prod.count = request.POST['inventory_count']
         editing_prod.save()
     return redirect('/dashboard/prods')
-
-    
