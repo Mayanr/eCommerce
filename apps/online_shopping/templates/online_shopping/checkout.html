@@ -8,6 +8,10 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+
     {% load static %}
 
     <link rel="stylesheet" href="{% static 'online_shopping/style.css' %}">
@@ -36,25 +40,51 @@
             {% csrf_token %}
             <div class='order_form' >
                 <h3>Shipping Address</h3>
-                    <p>First Name: <input type="text" name='ship_fname' ></p>
-                    <p>Last Name: <input type="text" name='ship_lname' ></p>
+                    <p>First Name: <input type="text" name='ship_fname' id='ship_fname' onkeyup="getInput()"></p>
+                    <p>Last Name: <input type="text" name='ship_lname' id='ship_lname' onkeyup="getInput()"></p>
                     <p>Email: <input type="email" name='email' ></p>
-                    <p>Address: <input type="text" name='ship_address' ></p>
-                    <p>Address 2: <input type="text" name='ship_address2' ></p>
-                    <p>City: <input type="text" name='ship_city' ></p>
-                    <p>State: <input type="text" name='ship_state' ></p>
-                    <p>Zipcode: <input type="number" name='ship_zip' ></p>
+                    <p>Address: <input type="text" name='ship_address' id='ship_address' onkeyup="getInput()"></p>
+                    <p>Address 2: <input type="text" name='ship_address2' id='ship_address2' onkeyup="getInput()"></p>
+                    <p>City: <input type="text" name='ship_city' id='ship_city' onkeyup="getInput()"></p>
+                    <p>State: <input type="text" name='ship_state' id='ship_state' onkeyup="getInput()"></p>
+                    <p>Zipcode: <input type="number" name='ship_zip' id='ship_zip' onkeyup="getInput()"></p>
         
         
                 <h3>Billing Address</h3>
-                    <p><input type="checkbox" name="same" > Same as Shipping</p>
-                    <p>First Name: <input type="text" name='bill_fname' ></p>
-                    <p>Last Name: <input type="text" name='bill_lname' ></p>
-                    <p>Address: <input type="text" name='bill_address' ></p>
-                    <p>Address 2: <input type="text" name='bill_address2' ></p>
-                    <p>City: <input type="text" name='bill_city' ></p>
-                    <p>State: <input type="text" name='bill_state' ></p>
-                    <p>Zipcode: <input type="number" name='bill_zip' ></p>
+                    <input type="checkbox" name="billing_address" id='billing_address'> Same as Shipping
+
+                    <script type = "text/javascript">
+                        function getInput() {
+                          $('#billing_address').change(function(){
+                            var fname = document.getElementById("ship_fname").value;
+                            var lname = document.getElementById("ship_lname").value;
+                            var address = document.getElementById("ship_address").value;
+                            var address2 = document.getElementById("ship_address2").value;
+                            var city = document.getElementById("ship_city").value;
+                            var state = document.getElementById("ship_state").value;
+                            var zip = document.getElementById("ship_zip").value;
+
+                            if ($(this).is(':checked')) {
+                                $('input#bill_fname').val(fname)
+                                $('input#bill_lname').val(lname)
+                                $('input#bill_address').val(address)
+                                $('input#bill_address2').val(address2)
+                                $('input#bill_city').val(city)
+                                $('input#bill_state').val(state)
+                                $('input#bill_zip').val(zip)
+                            };
+                          });
+                        };
+                        </script>
+                    <br>
+
+                    <p>First Name: <input type="text" name='bill_fname' id='bill_fname'></p>
+                    <p>Last Name: <input type="text" name='bill_lname' id='bill_lname'></p>
+                    <p>Address: <input type="text" name='bill_address' id='bill_address'></p>
+                    <p>Address 2: <input type="text" name='bill_address2' id='bill_address2'></p>
+                    <p>City: <input type="text" name='bill_city' id="bill_city"></p>
+                    <p>State: <input type="text" name='bill_state' id="bill_state"></p>
+                    <p>Zipcode: <input type="number" name='bill_zip' id='bill_zip'></p>
         
                     <input type="submit" value="Place My Order" class="btn btn-primary" id='updated_prod_btn'>
             </div>
@@ -95,12 +125,22 @@
                     <tr>
                         <td> </td>
                         <td> </td>
-                        <td scope="col" style="font-weight: bold;">Total: ${{ cart_sumTotal_cost|floatformat:2 }}</td>
-                        <input type="hidden" name="total_cost" value="{{ cart_sumTotal_cost }}">
+                        <td scope="col" style="font-weight: bold;">Total: ${{ cart_sumTotal_cost|floatformat:2 }}
+                            <br>
+                            Tax: ${{ tax|floatformat:2 }}
+                            <br>
+                            Shipping: ${{ shipping_cost|floatformat:2 }}
+                        </td>                       
+                    </tr>
+                    <tr>
+                        <td> </td>
+                        <td> </td>
+                        <td scope="col" style="font-weight: bold;">Sub Total: ${{ sub_total|floatformat:2 }}<input type="hidden" name="total_cost" value="{{ sub_total }}"></td>
                     </tr>
                 </table>
             </div>
         </form>
-    
+
+ 
 </body>
 </html>

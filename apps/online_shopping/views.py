@@ -23,7 +23,7 @@ def index(request):
     return render(request, "online_shopping/index.html", context)
 
 
-def prods_category(request, cat_id):
+def prods_category(request, cat_id):  
     cart_count = 0
     for x in request.session['cart_']:
         cart_count += x['quant']
@@ -56,10 +56,6 @@ def prods_show(request, prod_id):
 
 
 def add_to_cart(request, prod_id):
-    if 'cart_' not in request.session:
-        request.session['cart_'] = []
-    print(request.session['cart_'])
-
     for item in request.session['cart_']:
         if item['id'] == int(prod_id):
             item['quant'] += int(request.POST['quant'])
@@ -82,6 +78,9 @@ def shopping_cart(request):
     cart_count = 0
     cart_sumTotal_cost = 0
     allPrices = []
+    tax = 0
+    shipping = 5.00 
+    sub_total = 0
     for x in request.session['cart_']:
         cart_count += x['quant']
         item_ids_in_cart.append(str(x['id']))
@@ -93,6 +92,8 @@ def shopping_cart(request):
         for i in range(1,21):
             price_list.append(i*x['ppu'])
         allPrices.append(pricingArr)
+        tax = cart_sumTotal_cost * 0.06
+        sub_total = tax + shipping + cart_sumTotal_cost
 
     context= {
         'cart_count' : cart_count,
@@ -100,7 +101,9 @@ def shopping_cart(request):
         'price_list' : allPrices,
         'cart_contents' : request.session['cart_'],
         'prods' : Prod.objects.filter(id__in=item_ids_in_cart),
-        # 'allProds' : Prod.objects.all()
+        'tax' : tax,
+        'shipping_cost' : shipping,
+        'sub_total' : sub_total
     }
     return render(request, 'online_shopping/cart.html', context)
 
@@ -123,17 +126,26 @@ def checkout(request):
     cart_count = 0
     item_ids_in_cart = []
     cart_sumTotal_cost = 0
+    tax = 0
+    shipping = 5.00 
+    sub_total = 0
     for x in request.session['cart_']:
         cart_count += x['quant']
         item_ids_in_cart.append(str(x['id']))
         x['total'] = x['quant']*x['ppu']
         cart_sumTotal_cost += x['total']
+        tax = cart_sumTotal_cost * 0.06
+        sub_total = tax + shipping + cart_sumTotal_cost
+
     
     context = {
         'cart_count' : cart_count,
         'prods' : Prod.objects.filter(id__in=item_ids_in_cart),
         'cart_contents' : request.session['cart_'],
-        'cart_sumTotal_cost': cart_sumTotal_cost
+        'cart_sumTotal_cost': cart_sumTotal_cost,
+        'tax' : tax,
+        'shipping_cost' : shipping,
+        'sub_total' : sub_total
     }
     return render(request, 'online_shopping/checkout.html', context)
 
@@ -192,6 +204,8 @@ def process_order(request):
 
 
 def confirmation(request):
+    # del request.session['cart_']
+    request.session['cart_'] = []
     return render(request, 'online_shopping/confirmation.html')
 
 # --------------------admin routes---------------------------
@@ -221,8 +235,13 @@ def verify_admin(request):
 
 
 def admin_logout(request):
-    del request.session['logged_in']
-    return redirect('/admin')
+    if 'logged_in' in request.session:
+        del request.session['logged_in']
+        messages.error(request, 'Successful log out. Thanks for visiting, see you next time!')
+        return redirect('/admin')
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
+        return redirect('/admin')
 
 
 def dashboard_orders(request):
@@ -251,9 +270,14 @@ def dashboard_prods(request):
 
 def orders_show(request, order_id):
     if 'logged_in' in request.session:
+        this_order = Order.objects.get(id=order_id)
+        total = (float(this_order.total_cost) - 5)/1.06
+        tax = float(this_order.total_cost) - total - 5
         context= {
-            'selected_order' : Order.objects.get(id=order_id),
-            'order_details' : Order_Item.objects.filter(belongs_to_shopper=order_id)
+            'selected_order' : this_order,
+            'order_details' : Order_Item.objects.filter(belongs_to_shopper=order_id),
+            'tax' : tax,
+            'total' : total
         }
         return render(request, "online_shopping/orders_show.html", context)
     else:

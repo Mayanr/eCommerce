@@ -31,14 +31,7 @@
             <th scope="col">Quantity</th>
             <th scope="col">Total</th>
         </tr>
-        <!-- { for prod in yourCart } -->
-        <!-- <tr>
-            <td>testing</td>
-            <td>$3.99</td>
-            <td>2 | <a href=''>update</a> | <a href=''>delete</a></td>
-            <td>mult price * quant</td>
-        </tr> -->
-        <!-- { endfor } -->
+
         {% for prod in prods %}
         <form action='editCart/{{ prod.id }}' method='POST'>
             {% csrf_token %}
@@ -89,8 +82,15 @@
     </table>
 
     <div id='below_table'>
-        <p style="font-weight: bold; border:1px;">Total: ${{ cart_sumTotal_cost|floatformat:2 }}</p>
-
+        <p>
+            Total: ${{ cart_sumTotal_cost|floatformat:2 }}
+            <br>
+            Tax: ${{ tax|floatformat:2 }}
+            <br>
+            Shipping: ${{ shipping_cost|floatformat:2 }}
+            <br>
+            <span style="font-weight: bold">Sub Total: ${{ sub_total|floatformat:2 }}</span>
+        </p>
         <!-- <input type="submit" value="Proceed to Checkout" class="btn btn-primary" id='updated_prod_btn'> -->
         <a href="checkout" class="btn btn-primary">Proceed to Checkout</a>
         <br>

@@ -129,7 +129,7 @@
             <tr>
                 <th scope="col">Item ID</th>
                 <th scope="col">Product Name</th>
-                <th scope="col">Price</th>
+                <th scope="col">Price / Unit</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Total Cost</th>
             </tr>
@@ -158,9 +158,10 @@
         </div>
         {% endif %}
             <div id='totals'>
-                <!-- <p>Sub Total: ${ sum of costs } </p>
-                <p>Shipping: $100</p> -->
-                <p>Total Price: <span>${{ selected_order.total_cost }}</span></p>
+                <p>Sub Total: ${{ total|floatformat:2 }}</p>
+                <p>Tax: ${{ tax|floatformat:2 }} </p>
+                <p>Shipping: $5.00</p> 
+                <p>Total Price: <span>${{ selected_order.total_cost |floatformat:2}}</span></p>
             </div>
         </div>
     </div> 
