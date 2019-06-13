@@ -46,7 +46,7 @@
     div.info {
         padding: 20px 0;
     }
-   #status, #totals {
+   .status, #totals {
         display: inline-block;
         width: 30%;
         margin:  0 15px;
@@ -55,8 +55,13 @@
     #status_subtotal {
         margin-top: 50px;
     }
-    #status {
+    #in_progress {
         background-color: lightgreen;
+        border: 1px solid black;
+        padding: 5px;
+    }
+    #cancelled {
+        background-color: red;
         border: 1px solid black;
         padding: 5px;
     }
@@ -68,6 +73,9 @@
         padding: 0;
         margin: 0;
     }
+    span{
+        font-weight: bold;
+    }
     </style>
 </head>
 <body>
@@ -77,26 +85,42 @@
         <a href='/dashboard/prods' >Products</a>
         <a id='logout' href='/LOGOUT'>Log Out</a>     
     </header>
-
+    
     <aside>
-        <p>Order ID: { order.id }</p>
+        <h2>Order ID: {{ selected_order.id }}</h2>
+
+        <p>Email: <span>{{ selected_order.email }}</span></p>
 
         <div class = 'info'>
-            <p>Customer Shipping Info: </p>
-            <p>First Name: { order.fname }</p>
-            <p>Last Name: { order.lname }</p>
-            <p>City: { order.city }</p>
-            <p>State: { order.state }</p>
-            <p>Zip: { order.zip }</p>
+            <h4>Customer Shipping Info </h4>
+            <p>First Name: <span>{{ selected_order.sh_fname }}</span></p>
+            <p>Last Name: <span>{{ selected_order.sh_lname }}</span></p>
+            <p>Address:
+                <span> 
+                    {{ selected_order.sh_address }}
+                    {{ selected_order.sh_address2 }}
+                </span>
+                </p>
+            <p>City: <span>{{ selected_order.sh_city }}</span></p>
+            <p>State: <span>{{ selected_order.sh_state }}</span></p>
+            <p>Zip: <span>{{ selected_order.sh_zip }}</span></p>
         </div>
 
         <div class = 'info'>
-            <p>Customer Billing Info: </p>
-            <p>First Name: { order.fname }</p>
-            <p>Last Name: { order.lname }</p>
-            <p>City: { order.city }</p>
-            <p>State: { order.state }</p>
-            <p>Zip: { order.zip }</p>
+            <h4>Customer Billing Info </h4>
+            <p>First Name: <span>{{ selected_order.b_fname }}</span></p>
+            <p>Last Name: <span>{{ selected_order.b_lname }}</span></p>
+            <p>Address:
+                <span> 
+                    {{ selected_order.b_address }}
+                    {{ selected_order.b_address2 }}
+                </span>
+                </p>
+            <p>City: <span>{{ selected_order.b_city }}</span></p>
+            <p>State: <span>{{ selected_order.b_state }}</span></p>
+            <p>Zip: <span>{{ selected_order.b_zip }}</span></p>
+
+
         </div>       
     </aside>
 
@@ -109,24 +133,34 @@
                 <th scope="col">Quantity</th>
                 <th scope="col">Total Cost</th>
             </tr>
-            <!-- { for prod in order } -->
+            {% for detail in order_details %}
             <tr>
-                <td>1</td>
-                <td>Shirt</td>
-                <td>$10.00</td>
-                <td>4 </td>
-                <td>$40.00</td>
+                <td>{{detail.includes_prod.id }}</td>
+                <td>{{detail.includes_prod.name }}</td>
+                <td>${{detail.includes_prod.price }}</td>
+                <td>{{detail.quant }} </td>
+                <td>${{detail.cost }}</td>
             </tr>
-            <!-- { endfor } -->
+            {% endfor %}
         </table>
     <div id='status_subtotal'>
-        <div id='status'>
-                <p>Status: { object.status } </p>
-            </div>
+        {% if selected_order.status.progress == "order in process" %}
+        <div class='status' id='in_progress'>
+            <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
+        </div>
+        {% elif selected_order.status.progress == "shipped" %}
+        <div class='status' id='in_progress'>
+            <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
+        </div>
+        {% else %}
+        <div class='status' id='cancelled'>
+            <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
+        </div>
+        {% endif %}
             <div id='totals'>
-                <p>Sub Total: ${ sum of costs } </p>
-                <p>Shipping: $100</p>
-                <p>Total Price: ${ sub-total + shipping } </p>
+                <!-- <p>Sub Total: ${ sum of costs } </p>
+                <p>Shipping: $100</p> -->
+                <p>Total Price: <span>${{ selected_order.total_cost }}</span></p>
             </div>
         </div>
     </div> 

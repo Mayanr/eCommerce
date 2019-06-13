@@ -86,6 +86,7 @@
                             {% for x in cart_contents %}
                                 {% if x.id == prod.id %}
                                     ${{ x.total|floatformat:2 }}
+                                    <input type="hidden" name="cost" value="{{ x.total }}">
                                 {% endif %}
                             {% endfor %} 
                         </td>

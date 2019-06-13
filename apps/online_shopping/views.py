@@ -179,11 +179,13 @@ def process_order(request):
                 prods = value
             if key=='quant':
                 quant = value
+            if key=='cost':
+                cost = value
         # new_order = Order.objects.get(id=1)
-        for p,q in zip(prods,quant):
-            print("p is qual to ", p, "and q is" , q)
+        for p,q,c in zip(prods,quant,cost):
+            # print("p is qual to ", p, "and q is" , q)
             ordered_prod = Prod.objects.get(id=p)
-            Order_Item.objects.create(includes_prod = ordered_prod, quant = q, belongs_to_shopper = new_order)
+            Order_Item.objects.create(includes_prod = ordered_prod, quant = q, cost =c, belongs_to_shopper = new_order)
 
         return redirect('/confirmation')
     return redirect('/checkout')
@@ -201,17 +203,6 @@ def verify_admin(request):
     return redirect('/dashboard/orders')
 
 def dashboard_orders(request): 
-    # all_orders = Order.objects.all()
-    # order_details = Order_Item.objects.all()
-    # for order in all_orders:
-    #     total_cost = 0
-    #     for detail in order_details:
-    #         print(detail.id)
-    #         this_prod = Prod.objects.get(id=str(detail.includes_prod.id))
-    #         total_cost += this_prod.price * detail.quant
-    #     print(total_cost)
-    #     order_details.append(total_cost)
-
     context = {
         'orders' : Order.objects.all(),
     }
@@ -226,10 +217,11 @@ def dashboard_prods(request):
     return render(request, 'online_shopping/dashboard_prods.html', context)
 
 def orders_show(request, order_id):
-    # context= {
-    #      'selected_order' : Order.objects.get(id=order_id),
-    # }
-    return render(request, "online_shopping/orders_show.html")
+    context= {
+        'selected_order' : Order.objects.get(id=order_id),
+        'order_details' : Order_Item.objects.filter(belongs_to_shopper=order_id)
+    }
+    return render(request, "online_shopping/orders_show.html", context)
 
 def add_prod(request):
     errors = Prod.objects.basic_validator(request.POST)

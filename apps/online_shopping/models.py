@@ -92,6 +92,7 @@ class Order(models.Model):
 class Order_Item(models.Model):
     includes_prod= models.ForeignKey(Prod, related_name="included_in_order")
     quant = models.IntegerField()
+    cost = models.DecimalField(max_digits=8, decimal_places=2, default=0.00)
     belongs_to_shopper= models.ForeignKey(Order, related_name="items_forthis_shopper")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
