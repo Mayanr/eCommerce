@@ -1,0 +1,147 @@
+/* admin */
+
+body {
+    padding: 10px;
+    text-align: center;
+}
+h1 {
+    color:navy;
+    padding: 20px;
+}
+#submit {
+    margin-left: 15%;
+    background-color: navy;
+    color: white;
+}
+
+/* orders dashboard */
+header p, header a {
+    display: inline-block;
+    padding: 15px;
+    color: white;
+}
+header a:hover{
+    text-decoration: none;
+    color: rgb(221, 189, 189);
+}
+header a:active {
+    color: black;
+}
+header {
+    background-color: darkred;
+}
+a#logout {
+    margin-left: 70%;
+}
+
+/* show order */
+header p, header a {
+    display: inline-block;
+    padding: 15px;
+    color: white;
+}
+header a:hover{
+    text-decoration: none;
+    color: rgb(221, 189, 189);
+}
+header a:active {
+    color: black;
+}
+header {
+    background-color: darkred;
+}
+a#logout {
+    margin-left: 70%;
+}
+table#order_items {
+    width: 65%;
+    margin: 10px;
+    vertical-align: top;
+}
+aside {
+    border: 1px solid black;
+    display: inline-block;
+    width: 25%;
+    margin: 35px;
+    padding: 10px;
+}
+div#wrapper {
+    width: 65%;
+    display: inline-block;
+    vertical-align: top;
+    margin: 35px;
+}
+div.info {
+    padding: 20px 0;
+}
+.status, #totals {
+    display: inline-block;
+    width: 30%;
+    margin:  0 15px;
+    vertical-align: top;
+}
+#status_subtotal {
+    margin-top: 50px;
+}
+#in_progress {
+    background-color: lightgreen;
+    border: 1px solid black;
+    padding: 5px;
+}
+#cancelled {
+    background-color: red;
+    border: 1px solid black;
+    padding: 5px;
+}
+#totals {
+    border: 1px solid black;
+    padding: 10px; 
+}
+p {
+    padding: 0;
+    margin: 0;
+}
+span{
+    font-weight: bold;
+}
+
+/* prod dashboard */
+header p, header a {
+    /* display: inline-block; */
+    padding: 15px;
+    color: white;
+}
+header a:hover{
+    text-decoration: none;
+    color: rgb(221, 189, 189);
+}
+header a:active {
+    color: black;
+}
+header {
+    background-color: darkred;
+    padding: 15px;
+}
+a#logout {
+    margin-left: 70%;
+}
+nav.navbar {
+    display: inline-block;
+}
+#add_prod_btn {
+    display: inline-block;
+    margin-left: 65%;
+
+}
+#add_prod_btn a {
+    color: white;
+    text-decoration: none;
+}
+h1 {
+    color: white;
+    background-color: darkred;
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}

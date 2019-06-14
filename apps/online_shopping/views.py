@@ -258,7 +258,7 @@ def dashboard_orders(request):
 def dashboard_prods(request):
     if 'logged_in' in request.session:
         context = {
-            'products' : Prod.objects.order_by('name'),
+            'products' : Prod.objects.order_by('-updated_at'),
             'categories' : Category.objects.all(),
             # 'order_by_name' : Prod.objects.order_by('name')
         }
@@ -340,3 +340,16 @@ def update_prod(request):
     else:
         messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
         return redirect('/admin')
+
+def update_order_status(request, order_id):
+    if 'logged_in' in request.session:
+        updated_order = Order.objects.get(id=order_id)
+        print(updated_order.status.id)
+        updated_order.status_id = request.POST['status']
+        updated_order.save()
+        print(updated_order.status_id)
+        return redirect('/dashboard/orders')
+    else:
+        messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
+        return redirect('/admin')
+    

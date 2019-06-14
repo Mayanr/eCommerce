@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^dashboard/orders$', views.dashboard_orders),
     url(r'^dashboard/prods$', views.dashboard_prods),
     url(r'^orders/show/(?P<order_id>\d+)$', views.orders_show),
+    url(r'^orders/update/(?P<order_id>\d+)$', views.update_order_status),
     url(r'^add_prod$', views.add_prod),
     url(r'^dashboard/delete/(?P<prod_id>\d+)$', views.delete_prod),
     url(r'^update_prod$', views.update_prod)

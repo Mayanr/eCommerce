@@ -7,6 +7,10 @@
     <title>Products Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'online_shopping/admin_styles.css' %}">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 
     <!-- js -->
@@ -18,45 +22,7 @@
     
 
     <style>
-    header p, header a {
-        /* display: inline-block; */
-        padding: 15px;
-        color: white;
-    }
-    header a:hover{
-        text-decoration: none;
-        color: rgb(221, 189, 189);
-    }
-    header a:active {
-        color: black;
-    }
-    header {
-        background-color: darkred;
-        padding: 15px;
-    }
-    a#logout {
-        margin-left: 70%;
-    }
-    nav.navbar {
-        display: inline-block;
-    }
-    #add_prod_btn {
-        display: inline-block;
-        margin-left: 65%;
 
-    }
-    #add_prod_btn a {
-        color: white;
-        text-decoration: none;
-    }
-    h1 {
-        color: white;
-        background-color: darkred;
-        text-align: center;
-        padding: 10px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-    }
     </style>
 </head>
 <body>
@@ -70,15 +36,14 @@
         <a id='logout' href='/admin_logout'>Log Out</a>     
     </header>
 
-    <nav class="navbar ">
+    <!-- <nav class="navbar ">
         <form class="form-inline">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-danger" type="submit">Search</button>
         </form>
-    </nav> 
-    <button type="button" id='add_prod_btn' class="btn btn-primary" data-toggle="modal" data-target="#form_add_prod">Add A New Product</button> 
-    <!-- <button id='add_prod_btn' class="btn btn-danger" ><a href='#form_add_prod' rel="modal:open" >Add A New Product</a></button> -->
-     
+    </nav>  -->
+
+    <button type="button" id='add_prod_btn' class="btn btn-primary" data-toggle="modal" data-target="#form_add_prod">Add A New Product</button>      
     
     
 
