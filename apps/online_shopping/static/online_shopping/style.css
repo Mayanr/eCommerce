@@ -2,11 +2,11 @@ body {
     padding: 10px;
 }
 
+
+/* header and navigation formatting- consistent across pages*/
 h1, h2 {
     color:navy;
 }
-
-/* header and navigation formatting- consistent across pages*/
 .wrapper, #categories h4  {
     color:navy;
     text-align: center;
@@ -46,6 +46,8 @@ p#cart {
     margin-left: 70%;
 }
 
+
+/* index formatting */
 div#categories {
     max-width: 60%;
     padding: 5px;
