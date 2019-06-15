@@ -37,10 +37,10 @@
             </div>
         </aside>
     
-        <main>
+        <div class='prod_dispalys'>
             <h1>{{ selected_cat}}</h1>
             {% for p in prods_in_cat %}
-            <div id='featured_prods'>
+            <div class='featured_prods'>
                 <a href="/products/show/{{ p.id }}" style="text-decoration: none;">
                     <img src="{{p.main_img}}" alt="{{p.name}}" height="200" >
                     <br>
@@ -49,6 +49,6 @@
                 </a>
             </div>
             {% endfor %}
-        </main>       
+        </div>       
     </body>
     </html>

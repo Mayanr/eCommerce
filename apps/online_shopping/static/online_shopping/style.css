@@ -1,12 +1,67 @@
-body {
-    padding: 10px;
+/*Button and navigation formatting- consistent across pages*/
+body{
+    background-color: navy;
 }
 
-
-/* header and navigation formatting- consistent across pages*/
 h1, h2 {
     color:navy;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
+.allButtons {
+    color: #fff !important;
+    background: purple;
+    padding: 15px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-top: 10px;
+}
+
+.allButtons:hover{
+    background: #434343;
+    letter-spacing: 1px;
+    -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+    -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+    box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+    transition: all 0.4s ease 0s;
+}
+
+#navigation {
+    list-style: none;
+    font-family: "Century Gothic", Verdana, Arial, Sans-Serif;
+    margin: 0;
+    padding: 0;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+#navigation li
+{
+    clear: both;
+    height: 2em;
+    display: inline-block;
+}
+
+#navigation li a
+{
+    float: left;
+    display: block;
+    padding: 4px;
+    text-decoration: none;
+    color: rgb(164, 168, 221);
+    margin-bottom: 10px;
+    margin-right: 55px;
+}
+
+#navigation li:hover a,
+#navigation li a:hover
+{
+    background: #999;
+    color: #fff;
+}
+
+
 .wrapper, #categories h4  {
     color:navy;
     text-align: center;
@@ -24,17 +79,18 @@ a:hover {
     text-decoration: none;
     color: navy;
 }
-header p, header a {
-    display: inline-block;
+header #store_name, header #cart {
+    /* display: inline-block; */
     color: white;
     padding-left: 3px;
 }
 header {
     background-color: navy;
+    padding: 10px;
 }
-a#cart {
+/* a#cart {
     margin-left: 70%;
-}
+} */
 a#cart:hover {
     color: lightblue;
     text-decoration: none;
@@ -47,7 +103,34 @@ p#cart {
 }
 
 
-/* index formatting */
+/* index, store-front page formatting */
+div#hero{
+    background-color: #D0A1D3;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+div#hero_img {
+    display: inline-block;
+    width: 65%;
+}
+div#hero_content{
+    display: inline-block;
+    width: 35%;
+} 
+
+#new_prods{
+    background-color: #D0A1D3;
+    text-align: center;
+    vertical-align: top;
+    min-width: 100%;
+    border: none;
+    margin-top: 100px;
+}
+
+div#new_prods_spacing{
+    margin: 30px;
+    background-color: white;
+}
+
 div#categories {
     max-width: 60%;
     padding: 5px;
@@ -69,12 +152,13 @@ aside{
     border: 1px solid black;
     padding: 5px;
 }
-main {
+.prod_dispalys {
     display: inline-block;
     width: 75%;
     border: 1px solid black;
     padding: 15px;  
     vertical-align: top;
+    background-color: white;
 }
 #home_link {
     display: block;
@@ -88,7 +172,7 @@ aside #categories ul, h4{
     margin-left: 10px;
     text-align: left;
 }
-div#featured_prods {
+div.featured_prods {
     display: inline-block;
     width: 350px;
     height: 400px;

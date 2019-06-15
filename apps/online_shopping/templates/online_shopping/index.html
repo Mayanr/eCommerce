@@ -16,23 +16,57 @@
     </style>
 </head>
 <body>
-    <header>
-        <p>eCommerce- Store Name!</p>
-        <a href='/cart_contents' id="cart">Shopping Cart ({{cart_count}})</a>
+    <header class="row">  
+        <div class = "col-xs-12 col-md-10" >
+            <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
+            <p id='store_name' style="display: inline-block;">
+                The Accessory Store
+            </p>
+        </div>
+        <a  class = "col-xs-6 col-md-2" href='/cart_contents' id="cart">
+            Shopping Cart ({{cart_count}})
+        </a>
     </header>
 
-    <div class='wrapper'>
-        <h1>Welcome!</h1>
-        <p> What are you shopping for today? To get started, click on a category or seach a product name in the search box below!  </p>
+    <ul id="navigation" >
+    {% for cat in categories %}
+        <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}}</a></li>
+    {% endfor %}
+    </ul>
+
+
+    <div id='hero' class="row">
+        <div id='hero_img' class = "col-xs-7">
+            <img  src="https://d39l2hkdp2esp1.cloudfront.net/img/photo/145768/145768_00_2x.jpg" src="https://d39l2hkdp2esp1.cloudfront.net/img/photo/169967/169967_00_2x.jpg" height="700">
+        </div>
+        <div id='hero_content' class = "col-xs-5">
+            <h1 style="font-size: 105px; padding-top: 170px; margin-left: -1em;">Be <br> Unforgettable</h1>
+            <div style="text-align: right; margin: 0; width:80%;"> 
+                <h2 style="font-size: 30px; color:white; ">
+                Let your style shine!
+            </h2>
+                <a class="allButtons" href="">Shop Sunglasses >></a> 
+            </div>
+        </div>
     </div>
 
-    <div class='wrapper' id='search'>
-        <nav class="navbar navbar-light bg-light">
-            <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </nav> 
+    <div id="new_prods" class='prod_dispalys'>
+        <h2>Latest Additions</h2>
+        {% for prod in new_prods %}
+        <div id="new_prods_spacing" class='featured_prods'>
+            <a href="/products/show/{{ prod.id }}" style="text-decoration: none;">
+                <img src="{{prod.main_img}}" alt="{{prod.name}}" height="200" >
+                <br>
+                {{prod.name}}
+                <br>
+                ${{prod.price}}
+                <br>
+                <button class="allButtons">See Details</button>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- <div class='wrapper' id='search' >
         <div id='categories'>    
             <h4>Categories</h4>
             <ul>
@@ -41,6 +75,7 @@
             {% endfor %}
             </ul>
         </div>
-    </div>
+    </div> -->
 </body>
 </html>
+212529

@@ -7,6 +7,7 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 
 def index(request):
+    # print(Prod.objects.order_by('-created_at')[:3].values())
     if 'cart_' not in request.session:
         request.session['cart_'] = []
     else:
@@ -18,7 +19,8 @@ def index(request):
     
     context = {
         'categories' : Category.objects.order_by('title'),
-        'cart_count' : cart_count
+        'cart_count' : cart_count,
+        'new_prods' : Prod.objects.order_by('-created_at')[:3]
     }
     return render(request, "online_shopping/index.html", context)
 
