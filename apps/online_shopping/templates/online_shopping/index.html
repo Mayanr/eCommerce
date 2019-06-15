@@ -18,10 +18,12 @@
 <body>
     <header class="row">  
         <div class = "col-xs-12 col-md-10" >
+            <a href = '/' >
             <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
             <p id='store_name' style="display: inline-block;">
                 The Accessory Store
             </p>
+            </a>
         </div>
         <a  class = "col-xs-6 col-md-2" href='/cart_contents' id="cart">
             Shopping Cart ({{cart_count}})
@@ -45,7 +47,7 @@
                 <h2 style="font-size: 30px; color:white; ">
                 Let your style shine!
             </h2>
-                <a class="allButtons" href="">Shop Sunglasses >></a> 
+                <a class="allButtons"  href="/products/category/6">Shop Sunglasses >></a> 
             </div>
         </div>
     </div>
@@ -56,12 +58,10 @@
         <div id="new_prods_spacing" class='featured_prods'>
             <a href="/products/show/{{ prod.id }}" style="text-decoration: none;">
                 <img src="{{prod.main_img}}" alt="{{prod.name}}" height="200" >
-                <br>
-                {{prod.name}}
-                <br>
-                ${{prod.price}}
-                <br>
-                <button class="allButtons">See Details</button>
+                
+                <h4 class='prod_name'>{{prod.name}}</h4>
+                <p>${{prod.price}}</p>
+                <button class="allButtons" style="margin-top: 0">See Details</button>
             </a>
         </div>
         {% endfor %}
@@ -76,6 +76,16 @@
             </ul>
         </div>
     </div> -->
+
+    <footer class='footer' style="padding-top: 10px;">
+        <ul>
+            <li><a href="">Customer Support</a></li>
+            <li><a href="">Contact Us</a></li>
+            <li><a href="">In the News</a></li>
+            <li><a href="">Return Policy</a></li>
+            <li><a href="">Terms and Conditions</a></li>
+        </ul>
+        <p style="color: white;font-size: 11px; margin-top: 40px; margin-bottom: 0;">&copy; Copyright 2019 Mayan Rothstein</p>
+    </footer>
 </body>
 </html>
-212529

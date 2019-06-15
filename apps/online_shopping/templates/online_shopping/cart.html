@@ -14,90 +14,126 @@
     </style>
 </head>
 <body>
-    <header>
-        <p>eCommerce- Store Name!</p>
-        <a href='/cart_contents' id="cart">Shopping Cart ({{cart_count}})</a>
+    <header class="row">  
+        <div class = "col-xs-12 col-md-10" >
+            <a href = '/' >
+            <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
+            <p id='store_name' style="display: inline-block;">
+                The Accessory Store
+            </p>
+            </a>
+        </div>
+        <a  class = "col-xs-6 col-md-2" href='/cart_contents' id="cart">
+            Shopping Cart ({{cart_count}})
+        </a>
     </header>
-    <nav>
+
+    <ul id="navigation" >
+    {% for cat in categories %}
+        <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}}</a></li>
+    {% endfor %}
+    </ul>
+        
+
+
+
+    <!-- <nav>
         <a href="/">Home</a>
-        <!-- <a href='/products/category/{{ selected_prod.cat.id }}'>Go Back</a> -->
-    </nav>
-
-    <h1> Items in your cart:</h1>
-    <table id='width' class="table table-striped">
-        <tr>
-            <th scope="col">Item</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total</th>
-        </tr>
-
-        {% for prod in prods %}
-        <form action='editCart/{{ prod.id }}' method='POST'>
-            {% csrf_token %}
+        <a href='/products/category/{{ selected_prod.cat.id }}'>Go Back</a>
+    </nav> -->
+    <div style="text-align: center;">
+    <div class="prod_dispalys">
+        <h1> Items in your cart:</h1>
+        <table id='width' class="table table-striped">
             <tr>
-                <td>
-                    <a href='/products/show/{{ prod.id }}' >
-                    <img src="{{ prod.main_img }}" alt="{{ prod.name }}, {{ prod.id }}" width="100">
-                    <br>
-                    {{ prod.name }}
-                    </a> 
-                </td>
-                <td>${{ prod.price }} </td>
-                <td>
-                    {% for x in cart_contents %}
-                        {% if x.id == prod.id %}
-                            <!-- {{ x.quant }} -->     
-                <input type="hidden" name="prod_id" value="{{ prod.id }}">
-                <select name="new_quant">
-                {% for i in price_list %}
-                    {% for j in i %}
-                        {% if j.id == prod.id %}
-                            {% for p in j.price_list %}
-                                {% if p == x.total %}
-                                    <option selected="selected" value='{{ forloop.counter }}'> {{ forloop.counter }} (${{ p|floatformat:2 }})</option>
-                                {% else %}
-                                    <option value='{{ forloop.counter }}'> {{ forloop.counter }} (${{ p|floatformat:2 }})</option>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                {% endfor %}
-                </select>
-                {% endif %}
-                {% endfor %}
+                <th scope="col">Item</th>
+                <th scope="col">Price / Unit </th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+            </tr>
 
-                <br>
-                <input type="submit" value="Update" class="btn btn-primary btn-xs"></a> | <a href='removeFromCart/{{ prod.id }}' class="btn btn-primary btn-xs">Remove</a></td>
+            {% for prod in prods %}
+            <form action='editCart/{{ prod.id }}' method='POST'>
+                {% csrf_token %}
+                <tr>
+                    <td>
+                        <a href='/products/show/{{ prod.id }}' >
+                        <img src="{{ prod.main_img }}" alt="{{ prod.name }}, {{ prod.id }}" width="100">
+                        <br>
+                        {{ prod.name }}
+                        </a> 
+                    </td>
+                    <td>${{ prod.price }} </td>
+                    <td>
+                        {% for x in cart_contents %}
+                            {% if x.id == prod.id %}
+                                <!-- {{ x.quant }} -->     
+                    <input type="hidden" name="prod_id" value="{{ prod.id }}">
+                    <select name="new_quant">
+                    {% for i in price_list %}
+                        {% for j in i %}
+                            {% if j.id == prod.id %}
+                                {% for p in j.price_list %}
+                                    {% if p == x.total %}
+                                        <option selected="selected" value='{{ forloop.counter }}'> {{ forloop.counter }} (${{ p|floatformat:2 }})</option>
+                                    {% else %}
+                                        <option value='{{ forloop.counter }}'> {{ forloop.counter }} (${{ p|floatformat:2 }})</option>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    </select>
+                    {% endif %}
+                    {% endfor %}
+                    <input type="submit" value="Update" class="remove_button_style"> |
+                    <a href='removeFromCart/{{ prod.id }}' class="remove_button_style">Remove Item</a></td>
+                    <td>
+                        {% for x in cart_contents %}
+                            {% if x.id == prod.id %}
+                                ${{ x.total|floatformat:2 }}
+                            {% endif %}
+                        {% endfor %}   
+                    </td>
+                </tr>
+            </form>
+            {% endfor %}
+       
+            <tr style="background-color: white;">
+                <td></td>
+                <td></td>
+                <td></td>
                 <td>
-                    {% for x in cart_contents %}
-                        {% if x.id == prod.id %}
-                            ${{ x.total|floatformat:2 }}
-                        {% endif %}
-                    {% endfor %}   
+
+                <p>
+                    Total: ${{ cart_sumTotal_cost|floatformat:2 }}
+                    <br>
+                    Tax: ${{ tax|floatformat:2 }}
+                    <br>
+                    Shipping: ${{ shipping_cost|floatformat:2 }}
+                    <br>
+                    <span style="font-weight: bold">Sub Total: ${{ sub_total|floatformat:2 }}</span>
+                </p>
+                <!-- <input type="submit" value="Proceed to Checkout" class="btn btn-primary" id='updated_prod_btn'> -->
+                <a href="checkout" class="allButtons">Proceed to Checkout >></a>
+                <br>
+                <a href='/' class="smallButton"> Continue Shopping </a>
+                <a href='/empty_cart' class="smallButton"> Empty Cart </a>
                 </td>
             </tr>
-        </form>
-        {% endfor %}
-    </table>
-
-    <div id='below_table'>
-        <p>
-            Total: ${{ cart_sumTotal_cost|floatformat:2 }}
-            <br>
-            Tax: ${{ tax|floatformat:2 }}
-            <br>
-            Shipping: ${{ shipping_cost|floatformat:2 }}
-            <br>
-            <span style="font-weight: bold">Sub Total: ${{ sub_total|floatformat:2 }}</span>
-        </p>
-        <!-- <input type="submit" value="Proceed to Checkout" class="btn btn-primary" id='updated_prod_btn'> -->
-        <a href="checkout" class="btn btn-primary">Proceed to Checkout</a>
-        <br>
-        <a href='/' class="btn btn-primary"> Continue Shopping</a>
-        <br>
-        <a href='/empty_cart' class="btn btn-primary"> Empty Cart </a>
+        </table>
+    </div>
     </div>
 
+    <footer class='footer' style="padding-top: 10px;">
+        <ul>
+            <li><a href="">Customer Support</a></li>
+            <li><a href="">Contact Us</a></li>
+            <li><a href="">In the News</a></li>
+            <li><a href="">Return Policy</a></li>
+            <li><a href="">Terms and Conditions</a></li>
+        </ul>
+        <p style="color: white;font-size: 11px; margin-top: 40px; margin-bottom: 0;">&copy; Copyright 2019 Mayan Rothstein</p>
+    </footer>
 </body>
 </html>

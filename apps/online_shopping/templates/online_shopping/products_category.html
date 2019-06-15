@@ -13,9 +13,63 @@
     <style>
 
     </style>
-    </head>
-    <body>
-        <header>
+</head>
+<body>
+    <header class="row">  
+        <div class = "col-xs-12 col-md-10" >
+            <a href = '/' >
+            <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
+            <p id='store_name' style="display: inline-block;">
+                The Accessory Store
+            </p>
+            </a>
+        </div>
+        <a  class = "col-xs-6 col-md-2" href='/cart_contents' id="cart">
+            Shopping Cart ({{cart_count}})
+        </a>
+    </header>
+
+    <ul id="navigation">
+    {% for cat in categories %}
+        {% if selected_cat.id == cat.id %}
+            <li ><a style='border:1px solid #999; color:#fff; text-transform: uppercase;' href = '/products/category/{{ cat.id }}' >{{cat.title}}</a></li>
+        {% else %}
+            <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}}</a></li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+    <div style="text-align: center;">
+        <div class='prod_dispalys' class="row">
+            <h1>{{ selected_cat.title }}</h1>
+            {% for p in prods_in_cat %}
+            <div class='featured_prods'>
+                <a href="/products/show/{{ p.id }}" style="text-decoration: none;">
+                    <img src="{{p.main_img}}" alt="{{p.name}}" height="200" >
+                    <br>
+                    {{p.name}}
+                    <br>
+                    ${{p.price}}
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <footer class='footer' style="padding-top: 10px;">
+        <ul>
+            <li><a href="">Customer Support</a></li>
+            <li><a href="">Contact Us</a></li>
+            <li><a href="">In the News</a></li>
+            <li><a href="">Return Policy</a></li>
+            <li><a href="">Terms and Conditions</a></li>
+        </ul>
+        <p style="color: white;font-size: 11px; margin-top: 40px; margin-bottom: 0;">&copy; Copyright 2019 Mayan Rothstein</p>
+    </footer>
+</body>
+</html>
+
+        <!-- <header>
             <p>eCommerce- Store Name!</p>
             <a href='/cart_contents' id="cart">Shopping Cart ({{cart_count}})</a>
         </header>
@@ -26,29 +80,13 @@
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
                     <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
                 </form>
-            </nav> 
-            <div id='categories'>    
-                <h4>Categories</h4>
-                <ul>
-                {% for cat in categories %}
-                    <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}} ({{cat.prod_in_category.count}})</a></li>
-                {% endfor %}
-                </ul>
-            </div>
-        </aside>
-    
-        <div class='prod_dispalys'>
-            <h1>{{ selected_cat}}</h1>
-            {% for p in prods_in_cat %}
-            <div class='featured_prods'>
-                <a href="/products/show/{{ p.id }}" style="text-decoration: none;">
-                    <img src="{{p.main_img}}" alt="{{p.name}}" height="200" >
-                    <br>
-                    {{p.name}}
-                    ${{p.price}}
-                </a>
-            </div>
+            </nav>  -->
+        <!-- <div id='categories'>    
+            <h4>Categories</h4>
+            <ul>
+            {% for cat in categories %}
+                <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}} ({{cat.prod_in_category.count}})</a></li>
             {% endfor %}
-        </div>       
-    </body>
-    </html>
+            </ul>
+        </div> -->
+    <!-- </aside> -->

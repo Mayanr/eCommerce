@@ -14,8 +14,8 @@ h1, h2 {
     border-radius: 5px;
     display: inline-block;
     border: none;
+    margin-top: 15px;
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    margin-top: 10px;
 }
 
 .allButtons:hover{
@@ -27,25 +27,56 @@ h1, h2 {
     transition: all 0.4s ease 0s;
 }
 
-#navigation {
+.smallButton{
+    color: #fff !important;
+    background: purple;
+    padding: 10px;
+    border-radius: 5px;
+    display: inline-block;
+    border: none;
+    margin-top: 15px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+}
+.smallButton:hover{
+    background: #434343;
+    -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+    -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+    box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+    transition: all 0.4s ease 0s;
+}
+
+.remove_button_style{
+    font-size: 100%;
+    border: 0;
+    padding: 0;
+    background-color: transparent;
+    color: navy;
+    vertical-align: top;
+}
+#navigation, footer.footer {
     list-style: none;
     font-family: "Century Gothic", Verdana, Arial, Sans-Serif;
     margin: 0;
     padding: 0;
     font-size: 1.2em;
     text-align: center;
+    padding-bottom: 15px;
 }
-
-#navigation li
-{
+#navigation li, footer ul li{
     clear: both;
     height: 2em;
     display: inline-block;
 }
+footer ul li{
+    font-size: 0.7em;
+    margin-right: 50px;
+}
+footer ul li a{
+    margin: 0;
+}
 
-#navigation li a
-{
-    float: left;
+#navigation li a, footer ul li a {
     display: block;
     padding: 4px;
     text-decoration: none;
@@ -54,33 +85,37 @@ h1, h2 {
     margin-right: 55px;
 }
 
-#navigation li:hover a,
-#navigation li a:hover
-{
+#navigation li:hover a, #navigation li a:hover, .footer li:hover a, .footer ul li a:hover {
     background: #999;
     color: #fff;
 }
 
-
+h4.prod_name{
+    text-align: center;
+    color: navy;
+    padding-top: 10px;
+    width: 200px;
+    height: 70px;
+    margin: 0 auto;
+}
+/* 
 .wrapper, #categories h4  {
     color:navy;
     text-align: center;
-}
+} */
 table#width, form {
     max-width: 70%;
     margin: 0 auto;
     margin-top: 20px;
 }
 #below_table {
-    margin-left: 70%;
-    margin-bottom: 30px;
+    margin-left: 65%;
 }
 a:hover {
     text-decoration: none;
     color: navy;
 }
 header #store_name, header #cart {
-    /* display: inline-block; */
     color: white;
     padding-left: 3px;
 }
@@ -88,19 +123,11 @@ header {
     background-color: navy;
     padding: 10px;
 }
-/* a#cart {
-    margin-left: 70%;
-} */
 a#cart:hover {
     color: lightblue;
     text-decoration: none;
 }
-nav {
-    max-width: 60%;
-}
-p#cart {
-    margin-left: 70%;
-}
+
 
 
 /* index, store-front page formatting */
@@ -146,32 +173,30 @@ ul{
 } */
 
 /* formatting for products/categories/specific category ID page */
-aside{
+/* aside{
     display: inline-block;
     width: 24%;
     border: 1px solid black;
     padding: 5px;
-}
+} */
 .prod_dispalys {
     display: inline-block;
-    width: 75%;
-    border: 1px solid black;
-    padding: 15px;  
+    text-align: left;
+    width: 98%;
+    padding: 55px; 
+    margin: 0 auto; 
     vertical-align: top;
     background-color: white;
 }
 #home_link {
     display: block;
 }
-aside nav#nav {
-    padding: 10px 2px;
-    margin: 0;
-}
-aside #categories ul, h4{
+
+/* aside #categories ul, h4{
     list-style: none;
     margin-left: 10px;
     text-align: left;
-}
+} */
 div.featured_prods {
     display: inline-block;
     width: 350px;
@@ -182,14 +207,16 @@ div.featured_prods {
 /* formatting for products/show/specific prod ID page */
 div#image{
     display: inline-block;
-    width: 30%;
-    padding: 10px;
+    width: 50%;
+    padding: 80px;
+    padding-bottom: 10px;
     vertical-align: top;
 }
 div#details{
     display: inline-block;
-    width: 60%;
-    padding: 10px;
+    width: 40%;
+    padding: 80px;
+    padding-bottom: 10px;
 }
 div#details h1, div#details form {
     text-align: left;

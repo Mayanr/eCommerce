@@ -18,21 +18,21 @@ def index(request):
         cart_count += x['quant']
     
     context = {
-        'categories' : Category.objects.order_by('title'),
+        'categories' : Category.objects.order_by('id'),
         'cart_count' : cart_count,
         'new_prods' : Prod.objects.order_by('-created_at')[:3]
     }
     return render(request, "online_shopping/index.html", context)
 
 
-def prods_category(request, cat_id):  
+def prods_category(request, cat_id): 
     cart_count = 0
     for x in request.session['cart_']:
         cart_count += x['quant']
 
     context = {
-        'categories' : Category.objects.all().distinct(),
-        'selected_cat' : Category.objects.get(id=cat_id).title,
+        'categories' :  Category.objects.order_by('id'),
+        'selected_cat' : Category.objects.get(id=cat_id),
         'prods_in_cat' : Prod.objects.filter(cat = cat_id).values,
         'cart_count' : cart_count
     }
@@ -50,6 +50,7 @@ def prods_show(request, prod_id):
         cart_count += x['quant']
 
     context= {
+        'categories' :  Category.objects.order_by('id'),
         'selected_prod' : Prod.objects.get(id=prod_id),
         'price_list' : pricingArr,
         'cart_count' : cart_count
@@ -98,6 +99,7 @@ def shopping_cart(request):
         sub_total = tax + shipping + cart_sumTotal_cost
 
     context= {
+        'categories' :  Category.objects.order_by('id'),
         'cart_count' : cart_count,
         'cart_sumTotal_cost': cart_sumTotal_cost,
         'price_list' : allPrices,
