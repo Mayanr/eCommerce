@@ -143,6 +143,7 @@ def checkout(request):
 
     
     context = {
+        'categories' :  Category.objects.order_by('id'),
         'cart_count' : cart_count,
         'prods' : Prod.objects.filter(id__in=item_ids_in_cart),
         'cart_contents' : request.session['cart_'],
@@ -165,6 +166,7 @@ def process_order(request):
         for key, value in errors.items():
             messages.error(request, value)
             print('entries no good')
+        return redirect('/checkout')
     else:
         email = request.POST['email']
 
@@ -206,13 +208,17 @@ def process_order(request):
             ordered_prod.sold += int(q)
             ordered_prod.save()
         return redirect('/confirmation')
-    return redirect('/checkout')
 
 
 def confirmation(request):
     # del request.session['cart_']
     request.session['cart_'] = []
-    return render(request, 'online_shopping/confirmation.html')
+    cart_count = 0
+    context = {
+        'categories' :  Category.objects.order_by('id'),
+        'cart_count' : cart_count,
+    }
+    return render(request, 'online_shopping/confirmation.html', context)
 
 # --------------------admin routes---------------------------
 
@@ -358,4 +364,3 @@ def update_order_status(request, order_id):
     else:
         messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
         return redirect('/admin')
-    

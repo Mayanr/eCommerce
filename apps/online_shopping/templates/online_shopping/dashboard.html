@@ -9,7 +9,7 @@
 
     {% load static %}
 
-    <link rel="stylesheet" href="{% static 'online_shopping/admin_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'online_shopping/style.css' %}">
 
     <style>
 
@@ -17,74 +17,95 @@
     </style>
 </head>
 <body>
-    <header>
-        <p>Dashboards</p>
-        <a href='/dashboard/orders' style="text-decoration: underline">Orders</a>
-        <a href='/dashboard/prods'>Products</a>
-        <a id='logout' href='/admin_logout'>Log Out</a>     
+    <header class="row">  
+        <div class = "col-xs-12 col-md-10" >
+            <a href = '/dashboard/orders' >
+            <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
+            <p id='store_name' style="display: inline-block;">
+                The Accessory Store<br>
+                Admin Dashboards
+            </p>
+            </a>
+        </div>
+        <a  class = "col-xs-6 col-md-2" href='/admin_logout' id="cart">
+            Log Out
+        </a>
     </header>
 
-    <!-- <nav class="navbar ">
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-danger" type="submit">Search</button>
-        </form>
-    </nav>  -->
+    <ul id="navigation" >
+        <li><a href = '/dashboard/orders' style='border:1px solid #999; color:#fff; text-transform: uppercase;'>Orders</a></li>
+        <li><a href = '/dashboard/prods' >Inventory</a></li>
+    </ul>
+    
+    
+    <div style="text-align: center;">
+        <div class='prod_dispalys' class="row">
+        <table class="table table-striped">
+                <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Billing Address</th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Status</th>
+                </tr>
 
-    <table class="table table-striped">
-            <tr>
-                <th scope="col">Order ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Date</th>
-                <th scope="col">Billing Address</th>
-                <th scope="col">Total</th>
-                <th scope="col">Status</th>
-            </tr>
-
-            {% for order in orders %}
-            <tr>
-                <td><a href='/orders/show/{{order.id}}'>{{order.id}}</a></td>
-                <td>{{order.b_fname}} {{order.b_lname}}</td>
-                <td>{{order.created_at}}</td>
-                <td>{{order.b_address}}<br> {{order.b_address2}} <br> {{order.b_city}}, {{order.b_state}} {{order.b_zip}}</td>
-                <td>${{order.total_cost}}</td>
-                <td>
-                    {% if order.status_id == 2 %}
-                    <form action="/orders/update/{{order.id}}" method='POST'>
-                        {% csrf_token %}
-                        <select name="status">
-                            <option value="1">order in process</option>
-                            <option value="2" selected="selected">shipped</option>
-                            <option value="3">cancelled</option>
-                        </select>
-                        <input type="submit" value="Update" class="btn btn-primary">
-                    </form>
-                    {% elif order.status_id == 3 %}
-                    <form action="/orders/update/{{order.id}}" method='POST'>
+                {% for order in orders %}
+                <tr>
+                    <td><a id='clickable_order_id' href='/orders/show/{{order.id}}'>{{order.id}}</a></td>
+                    <td>{{order.b_fname}} {{order.b_lname}}</td>
+                    <td>{{order.created_at}}</td>
+                    <td>{{order.b_address}}<br> {{order.b_address2}} <br> {{order.b_city}}, {{order.b_state}} {{order.b_zip}}</td>
+                    <td>${{order.total_cost}}</td>
+                    <td >
+                        {% if order.status_id == 2 %}
+                        <form action="/orders/update/{{order.id}}" method='POST' style="margin-top: 0;">
                             {% csrf_token %}
-                        <select name="status">
-                            <option value="1">order in process</option>
-                            <option value="2" >shipped</option>
-                            <option value="3" selected="selected">cancelled</option>
-                        </select>
-                        <input type="submit" value="Update" class="btn btn-primary">
-                    </form>
-                    {% else %}
-                    <form action="/orders/update/{{order.id}}" method='POST'>
-                            {% csrf_token %}
-                        <select name="status">
-                            <option value="1" selected="selected">order in process</option>
-                            <option value="2" >shipped</option>
-                            <option value="3" >cancelled</option>
-                        </select>
-                        <input type="submit" value="Update" class="btn btn-primary">
-                    </form>
-                    {% endif %}
-                </td>
-                
-            </tr>
-            {% endfor %}
-        </table>
+                            <select name="status">
+                                <option value="1">order in process</option>
+                                <option value="2" selected="selected">shipped</option>
+                                <option value="3">cancelled</option>
+                            </select>
+                            <input type="submit" value="Update" class="smallButton">
+                        </form>
+                        {% elif order.status_id == 3 %}
+                        <form action="/orders/update/{{order.id}}" method='POST' style="margin-top: 0;">
+                                {% csrf_token %}
+                            <select name="status">
+                                <option value="1">order in process</option>
+                                <option value="2" >shipped</option>
+                                <option value="3" selected="selected">cancelled</option>
+                            </select>
+                            <input type="submit" value="Update" class="smallButton">
+                        </form>
+                        {% else %}
+                        <form action="/orders/update/{{order.id}}" method='POST' style="margin-top: 0;">
+                                {% csrf_token %}
+                            <select name="status">
+                                <option value="1" selected="selected">order in process</option>
+                                <option value="2" >shipped</option>
+                                <option value="3" >cancelled</option>
+                            </select>
+                            <input type="submit" value="Update" class="smallButton">
+                        </form>
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+        </div>
 
+        <footer class='footer' style="padding-top: 10px;">
+            <ul>
+                <li><a href="">Customer Support</a></li>
+                <li><a href="">Contact Us</a></li>
+                <li><a href="">In the News</a></li>
+                <li><a href="">Return Policy</a></li>
+                <li><a href="">Terms and Conditions</a></li>
+            </ul>
+            <p style="color: white;font-size: 11px; margin-top: 40px; margin-bottom: 0;">&copy; Copyright 2019 Mayan Rothstein</p>
+        </footer>
 </body>
 </html>

@@ -1,12 +1,33 @@
-/*Button and navigation formatting- consistent across pages*/
+/*Button, navigation, and footer formatting- consistent across pages*/
 body{
     background-color: navy;
 }
 
 h1, h2 {
-    color:navy;
+    color:purple;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
+
+a:hover {
+    text-decoration: none;
+    color: navy;
+}
+
+header #store_name, header #cart {
+    color: white;
+    padding-left: 3px;
+}
+
+header {
+    background-color: navy;
+    padding: 10px;
+}
+
+a#cart:hover {
+    color: lightblue;
+    text-decoration: none;
+}
+
 .allButtons {
     color: #fff !important;
     background: purple;
@@ -38,6 +59,7 @@ h1, h2 {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 15px;
 }
+
 .smallButton:hover{
     background: #434343;
     -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
@@ -54,6 +76,7 @@ h1, h2 {
     color: navy;
     vertical-align: top;
 }
+
 #navigation, footer.footer {
     list-style: none;
     font-family: "Century Gothic", Verdana, Arial, Sans-Serif;
@@ -63,15 +86,18 @@ h1, h2 {
     text-align: center;
     padding-bottom: 15px;
 }
+
 #navigation li, footer ul li{
     clear: both;
     height: 2em;
     display: inline-block;
 }
+
 footer ul li{
     font-size: 0.7em;
     margin-right: 50px;
 }
+
 footer ul li a{
     margin: 0;
 }
@@ -90,60 +116,35 @@ footer ul li a{
     color: #fff;
 }
 
-h4.prod_name{
-    text-align: center;
-    color: navy;
-    padding-top: 10px;
-    width: 200px;
-    height: 70px;
-    margin: 0 auto;
-}
-/* 
-.wrapper, #categories h4  {
-    color:navy;
-    text-align: center;
-} */
 table#width, form {
     max-width: 70%;
     margin: 0 auto;
     margin-top: 20px;
 }
-#below_table {
-    margin-left: 65%;
-}
-a:hover {
-    text-decoration: none;
-    color: navy;
-}
-header #store_name, header #cart {
-    color: white;
-    padding-left: 3px;
-}
-header {
-    background-color: navy;
-    padding: 10px;
-}
-a#cart:hover {
-    color: lightblue;
-    text-decoration: none;
-}
 
-
+ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
 /* index, store-front page formatting */
 div#hero{
     background-color: #D0A1D3;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
+
 div#hero_img {
     display: inline-block;
     width: 65%;
 }
+
 div#hero_content{
     display: inline-block;
     width: 35%;
 } 
 
+/* formatting for dispalying products when they appear in a list on the consumer-facing store front (ie on home page and categories page)*/
 #new_prods{
     background-color: #D0A1D3;
     text-align: center;
@@ -153,32 +154,25 @@ div#hero_content{
     margin-top: 100px;
 }
 
+h4.prod_name{
+    text-align: center;
+    color: navy;
+    padding-top: 10px;
+    width: 200px;
+    height: 70px;
+    margin: 0 auto;
+}
+
 div#new_prods_spacing{
     margin: 30px;
     background-color: white;
+    display: inline-block;
+    width: 360px;
+    height: 400px;
+    padding-top: 15px;
 }
-
-div#categories {
-    max-width: 60%;
-    padding: 5px;
-    text-align: center;
-}
-ul{
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-/* div#search, form {
-    margin-left: 30% ;
-} */
 
 /* formatting for products/categories/specific category ID page */
-/* aside{
-    display: inline-block;
-    width: 24%;
-    border: 1px solid black;
-    padding: 5px;
-} */
 .prod_dispalys {
     display: inline-block;
     text-align: left;
@@ -188,23 +182,15 @@ ul{
     vertical-align: top;
     background-color: white;
 }
-#home_link {
-    display: block;
-}
 
-/* aside #categories ul, h4{
-    list-style: none;
-    margin-left: 10px;
-    text-align: left;
-} */
 div.featured_prods {
     display: inline-block;
-    width: 350px;
+    width: 360px;
     height: 400px;
     padding-top: 15px;
 }
 
-/* formatting for products/show/specific prod ID page */
+/* formatting for displaying a single product on the page */
 div#image{
     display: inline-block;
     width: 50%;
@@ -225,8 +211,86 @@ div#details h1, div#details form {
 
 /* formatting for checkout page */
 .order_form {
-    width: 48%;
+    width: 49%;
     display: inline-block;
     margin: 0;
     vertical-align: top;
+}
+
+/*formatting for error messages when logging in and submitting order*/
+#admin_login_messages {
+    color: red;
+    text-align: center;
+    font-style: italic;
+}
+
+div.prod_dispalys ul.messages{
+    color: red;
+    text-align: left;
+    font-style: italic;
+}
+
+/*styling order ids as they appear on the admin order list to better indicate that they're clickable*/
+#clickable_order_id {
+    font-weight: bold;
+    color: purple;
+    font-size: 25px;
+    margin-left: 10px;
+    text-decoration: underline;
+}
+
+/*formatting individual order page*/
+aside#customer_info {
+    width: 25%;
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    border:1px solid black;
+    padding: 5px;
+}
+
+#order_info {
+    width: 65%;
+    display: inline-block;
+    margin: 0;
+    vertical-align: top;
+    margin-left: 35px;
+}
+
+.status {
+    display: inline-block;
+    width: 30%;
+    margin:  0 15px;
+    vertical-align: center;
+}
+
+#status_subtotal {
+    margin-top: -110px;
+}
+
+#in_progress {
+    background-color: lightgreen;
+    border: 1px solid black;
+    padding: 5px;
+    margin: 0;
+}
+#cancelled {
+    background-color: red;
+    border: 1px solid black;
+    padding: 5px;
+    margin: 0;
+}
+
+#customer_info p{
+    padding: 0;
+    margin: 0;
+}
+
+div#status_subtotal div.status p {
+    padding: 16px;
+    margin: 0;
+}
+
+div#status_subtotal div.status p span, #customer_info p span, #order_items td p span{
+    font-weight: bold;
 }

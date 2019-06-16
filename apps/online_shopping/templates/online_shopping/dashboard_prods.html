@@ -9,7 +9,7 @@
 
     {% load static %}
 
-    <link rel="stylesheet" href="{% static 'online_shopping/admin_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'online_shopping/style.css' %}">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 
@@ -18,63 +18,68 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
-
-    
-
     <style>
 
     </style>
 </head>
-<body>
-    
-
-
-    <header>
-        <p style="vertical-align: top;">Admin Dashboards</p>
-        <a href='/dashboard/orders' >Orders</a>
-        <a href='/dashboard/prods' style="text-decoration: underline; ">Products</a>
-        <a id='logout' href='/admin_logout'>Log Out</a>     
+<body>   
+    <header class="row">  
+        <div class = "col-xs-12 col-md-10" >
+            <a href = '/dashboard/orders' >
+            <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
+            <p id='store_name' style="display: inline-block;">
+                The Accessory Store<br>
+                Admin Dashboards
+            </p>
+            </a>
+        </div>
+        <a  class = "col-xs-6 col-md-2" href='/admin_logout' id="cart">
+            Log Out
+        </a>
     </header>
 
-    <!-- <nav class="navbar ">
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-danger" type="submit">Search</button>
-        </form>
-    </nav>  -->
-
-    <button type="button" id='add_prod_btn' class="btn btn-primary" data-toggle="modal" data-target="#form_add_prod">Add A New Product</button>      
+    <ul id="navigation" >
+        <li><a href = '/dashboard/orders' >Orders</a></li>
+        <li><a href = '/dashboard/prods' style='border:1px solid #999; color:#fff; text-transform: uppercase;'>Inventory</a></li>
+    </ul>
+   
     
-    
+    <div style="text-align: center;">
+        <div class='prod_dispalys' class="row">
+            <div style="text-align: center; ">
+                <button type="button" id='add_prod_btn' class="allButtons" style="margin-top: 0; margin-bottom: 35px;" data-toggle="modal" data-target="#form_add_prod">Add A New Product</button>      
+            </div>
+            
+            <table class="table table-striped" id="admin_prod_list">
+                <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope='col'>Category</th>
+                    <th scope='col'>Price/Unit</th>
+                    <th scope="col">Inventory Count</th>
+                    <th scope="col">Quant Sold</th>
+                    <th scope="col">Action</th>
+                </tr>
 
-    <table class="table table-striped" id="admin_prod_list">
-        <tr>
-            <th scope="col">Image</th>
-            <th scope="col">ID</th>
-            <th scope="col">Name</th>
-            <th scope='col'>Category</th>
-            <th scope='col'>Price/Unit</th>
-            <th scope="col">Inventory Count</th>
-            <th scope="col">Quant Sold</th>
-            <th scope="col">Action</th>
-        </tr>
-
-        {% for prod in products %}
-        <tr>
-            <td><img src="{{ prod.main_img }}" alt="{{prod.name}}" width="100"></td>
-            <td>{{ prod.id }}</td>
-            <td>{{ prod.name }}</td>
-            <td>{{ prod.cat.title }}, {{ prod.cat.id }}</td>
-            <td>{{ prod.price }} </td>           
-            <td>{{ prod.count }} </td>
-            <td>{{ prod.sold }}</td>
-            <td>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form_edit_prod"  data-id="{{ prod.id }}" data-name="{{ prod.name }}" data-desc="{{ prod.desc }}" data-cat="{{ prod.cat.id }}" data-count="{{ prod.count }}" data-sold="{{ prod.sold }}" data-img="{{ prod.main_img }}" data-price="{{ prod.price }}">Edit</button>  
-                <a href='delete/{{ prod.id }}'>Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table> 
+                {% for prod in products %}
+                <tr>
+                    <td><img src="{{ prod.main_img }}" alt="{{prod.name}}" width="100"></td>
+                    <td>{{ prod.id }}</td>
+                    <td>{{ prod.name }}</td>
+                    <td>{{ prod.cat.title }}, {{ prod.cat.id }}</td>
+                    <td>{{ prod.price }} </td>           
+                    <td>{{ prod.count }} </td>
+                    <td>{{ prod.sold }}</td>
+                    <td>
+                        <button type="button" class="smallButton" data-toggle="modal" data-target="#form_edit_prod"  data-id="{{ prod.id }}" data-name="{{ prod.name }}" data-desc="{{ prod.desc }}" data-cat="{{ prod.cat.id }}" data-count="{{ prod.count }}" data-sold="{{ prod.sold }}" data-img="{{ prod.main_img }}" data-price="{{ prod.price }}">Edit</button>  
+                        <a href='delete/{{ prod.id }}' class="smallButton" style="margin-left: 15px;">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
 
 
     <!-- "Add a new product" button in top right corner -->
@@ -105,7 +110,7 @@
                     </p>
                     <p>Inventory Count: <input type="number" name="inventory_count"></p>
                     <p>Image: <input type='text' name='main_pic' required title="please include a link to the image"></p>
-                    <input type="submit" value="Add Product" class="btn btn-primary" id='add_prod_btn'>
+                    <input type="submit" value="Add Product" class="allButtons" id='add_prod_btn'>
                 </form>
                 </div>
             </div>
@@ -141,7 +146,7 @@
                         </p>
                         <p>Inventory Count: <input type="number" id="count" name="inventory_count" value=''></p>
                         <p>Image: <input type='text' name='main_pic' id="img" required title="please include a link to the image"></p>
-                        <input type="submit" value="Update" class="btn btn-primary" id='updated_prod_btn'>
+                        <input type="submit" value="Update" class="allButtons" id='updated_prod_btn'>
                     </form>
                 </div>
             </div>
@@ -172,5 +177,15 @@
         })
     </script>
 
+    <footer class='footer' style="padding-top: 10px;">
+        <ul>
+            <li><a href="">Customer Support</a></li>
+            <li><a href="">Contact Us</a></li>
+            <li><a href="">In the News</a></li>
+            <li><a href="">Return Policy</a></li>
+            <li><a href="">Terms and Conditions</a></li>
+        </ul>
+        <p style="color: white;font-size: 11px; margin-top: 40px; margin-bottom: 0;">&copy; Copyright 2019 Mayan Rothstein</p>
+    </footer>
 </body>
 </html>

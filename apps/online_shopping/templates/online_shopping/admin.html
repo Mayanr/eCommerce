@@ -8,28 +8,66 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     {% load static %}
 
-    <link rel="stylesheet" href="{% static 'online_shopping/admin_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'online_shopping/style.css' %}">
     
     <style>
 
     </style>
 </head>
 <body>
-    <h1>Admin Login Page</h1>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    
+    <header class="row">  
+        <div class = "col-xs-12 col-md-10" >
+            <a href = '/admin' >
+            <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
+            <p id='store_name' style="display: inline-block;">
+                The Accessory Store<br>
+                Admin Dashboards
+            </p>
+            </a>
+        </div>
+    </header>
 
-    <form action='verify_admin' method="POST">
-        {% csrf_token %}
-        <p>email: <input type="text" name='admin_email' ></p>
-        <p>password: <input type="password" name='admin_pw' ></p>
-        <input id='submit' type="submit" value='Login'>
+    <div style="text-align: center;">
+        <div class="prod_dispalys" >
+            <h1 style=" text-align:center;">Admin Login Page</h1>
+            {% if messages %}
+            <ul id="admin_login_messages" >
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+    
+        <form action='verify_admin' method="POST" style="width: 20%;" >
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td><p>email:</td>
+                    <td><input type="text" name='admin_email' ></p></td>
+                </tr>
+                <tr>
+                    <td> <p>password: </td>
+                    <td><input type="password" name='admin_pw' ></p></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td style="text-align: right;"><input id='submit' type="submit" value='Login' class="allButtons"></td>
+                </tr>
+            </table>
+        </form>
+        </div>
+    </div>
+
+    <footer class='footer' style="padding-top: 10px;">
+        <ul>
+            <li><a href="">Customer Support</a></li>
+            <li><a href="">Contact Us</a></li>
+            <li><a href="">In the News</a></li>
+            <li><a href="">Return Policy</a></li>
+            <li><a href="">Terms and Conditions</a></li>
+        </ul>
+        <p style="color: white;font-size: 11px; margin-top: 40px; margin-bottom: 0;">&copy; Copyright 2019 Mayan Rothstein</p>
+    </footer>
     
 </body>
 </html>

@@ -15,7 +15,43 @@
 </head>
 <body>
     <h1>
-        Thank you for your purchase! Your new items are on the way!
     </h1>
+
+    <header class="row">  
+        <div class = "col-xs-12 col-md-10" >
+            <a href = '/' >
+            <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
+            <p id='store_name' style="display: inline-block;">
+                The Accessory Store
+            </p>
+            </a>
+        </div>
+        <a  class = "col-xs-6 col-md-2" href='/cart_contents' id="cart">
+            Shopping Cart ({{cart_count}})
+        </a>
+    </header>
+    
+        <ul id="navigation" >
+        {% for cat in categories %}
+            <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}}</a></li>
+        {% endfor %}
+        </ul>
+    
+        <div id="new_prods" class='prod_dispalys' style="margin-top: 0;">
+            <h1 style="color: navy;">Thank you for your purchase! </h1>
+            <h3>Your new items are on the way</h3>
+            <a href='/' class="allButtons" style="margin-top: 40px;"> Continue Shopping >> </a>
+        </div>
+    
+        <footer class='footer' style="padding-top: 10px;">
+            <ul>
+                <li><a href="">Customer Support</a></li>
+                <li><a href="">Contact Us</a></li>
+                <li><a href="">In the News</a></li>
+                <li><a href="">Return Policy</a></li>
+                <li><a href="">Terms and Conditions</a></li>
+            </ul>
+            <p style="color: white;font-size: 11px; margin-top: 40px; margin-bottom: 0;">&copy; Copyright 2019 Mayan Rothstein</p>
+        </footer>
 </body>
 </html>

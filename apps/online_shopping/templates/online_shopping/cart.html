@@ -34,9 +34,6 @@
     {% endfor %}
     </ul>
         
-
-
-
     <!-- <nav>
         <a href="/">Home</a>
         <a href='/products/category/{{ selected_prod.cat.id }}'>Go Back</a>
@@ -75,9 +72,9 @@
                             {% if j.id == prod.id %}
                                 {% for p in j.price_list %}
                                     {% if p == x.total %}
-                                        <option selected="selected" value='{{ forloop.counter }}'> {{ forloop.counter }} (${{ p|floatformat:2 }})</option>
+                                        <option selected="selected" value='{{ forloop.counter }}'> {{ forloop.counter }} </option>
                                     {% else %}
-                                        <option value='{{ forloop.counter }}'> {{ forloop.counter }} (${{ p|floatformat:2 }})</option>
+                                        <option value='{{ forloop.counter }}'> {{ forloop.counter }} </option>
                                     {% endif %}
                                 {% endfor %}
                             {% endif %}
@@ -137,3 +134,5 @@
     </footer>
 </body>
 </html>
+<!-- (${{ p|floatformat:2 }})
+(${{ p|floatformat:2 }}) -->

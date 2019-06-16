@@ -18,44 +18,92 @@
 
 </head>
 <body>
-    <header>
-        <p>eCommerce- Store Name!</p>
-        <a href='/cart_contents' id="cart">Shopping Cart ({{cart_count}})</a>
+    <header class="row">  
+        <div class = "col-xs-12 col-md-10" >
+            <a href = '/' >
+            <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
+            <p id='store_name' style="display: inline-block;">
+                The Accessory Store
+            </p>
+            </a>
+        </div>
+        <a  class = "col-xs-6 col-md-2" href='/cart_contents' id="cart">
+            Shopping Cart ({{cart_count}})
+        </a>
     </header>
-    <nav>
-        <a href="/">Home</a>
-        <a href='/cart_contents'>Go Back</a>
-    </nav>
 
-    <h1> Checkout</h1>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
+    <ul id="navigation" >
+    {% for cat in categories %}
+        <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}}</a></li>
+    {% endfor %}
     </ul>
-    {% endif %}
+
     
-        <form action='process_order' method="POST">
+
+    <div style="text-align: center;">
+            <div class="prod_dispalys">
+            <h1> Checkout</h1>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            
+            <form action='process_order' method="POST">
             {% csrf_token %}
             <div class='order_form' >
-                <h3>Shipping Address</h3>
-                    <p>First Name: <input type="text" name='ship_fname' id='ship_fname' onkeyup="getInput()"></p>
-                    <p>Last Name: <input type="text" name='ship_lname' id='ship_lname' onkeyup="getInput()"></p>
-                    <p>Email: <input type="email" name='email' ></p>
-                    <p>Address: <input type="text" name='ship_address' id='ship_address' onkeyup="getInput()"></p>
-                    <p>Address 2: <input type="text" name='ship_address2' id='ship_address2' onkeyup="getInput()"></p>
-                    <p>City: <input type="text" name='ship_city' id='ship_city' onkeyup="getInput()"></p>
-                    <p>State: <input type="text" name='ship_state' id='ship_state' onkeyup="getInput()"></p>
-                    <p>Zipcode: <input type="text" name='ship_zip' id='ship_zip' onkeyup="getInput()"></p>
+                <h3 style="margin-bottom: 25px;">Shipping Address</h3>
+                <table>
+                <tr>
+                    <td><p>First Name: </td>
+                    <td><input type="text" name='ship_fname' id='ship_fname' onkeyup="getInput()"></p></td> 
+                </tr>
+                <tr>
+                    <td><p>Last Name: </td>
+                    <td><input type="text" name='ship_lname' id='ship_lname' onkeyup="getInput()"></p></td>
+                </tr>
+                <tr>
+                    <td><p>Email: </td>
+                    <td><input type="email" name='email' ></p></td>
+                </tr>
+                <tr>
+                    <td><p>Address:</td>
+                    <td><input type="text" name='ship_address' id='ship_address' onkeyup="getInput()"></p></td>
+                </tr>
+                <tr>
+                    <td><p>Address 2:</td>
+                    <td><input type="text" name='ship_address2' id='ship_address2' onkeyup="getInput()"></p></td>
+                </tr>
+                <tr>
+                    <td><p>City:</td>
+                    <td><input type="text" name='ship_city' id='ship_city' onkeyup="getInput()"></p></td>
+                </tr>
+                <tr>
+                    <td><p>State:</td>
+                    <td><input type="text" name='ship_state' id='ship_state' onkeyup="getInput()"></p></td>
+                </tr>
+                <tr>
+                    <td><p>Zipcode:</td>
+                    <td><input type="text" name='ship_zip' id='ship_zip' onkeyup="getInput()"></p></td>
+                </tr>
+            </table>
+                    <!-- <p>Last Name: <input type="text" name='ship_lname' id='ship_lname' onkeyup="getInput()"></p> -->
+                    <!-- <p>Email: <input type="email" name='email' ></p> -->
+                    <!-- <p>Address: <input type="text" name='ship_address' id='ship_address' onkeyup="getInput()"></p> -->
+                    <!-- <p>Address 2: <input type="text" name='ship_address2' id='ship_address2' onkeyup="getInput()"></p> -->
+                    <!-- <p>City: <input type="text" name='ship_city' id='ship_city' onkeyup="getInput()"></p> -->
+                    <!-- <p>State: <input type="text" name='ship_state' id='ship_state' onkeyup="getInput()"></p> -->
+                    <!-- <p>Zipcode: <input type="text" name='ship_zip' id='ship_zip' onkeyup="getInput()"></p> -->
+                
         
-        
-                <h3>Billing Address</h3>
-                    <input type="checkbox" name="billing_address" id='billing_address'> Same as Shipping
+                <h3 style="margin-bottom: 25px; margin-top: 30px;">Billing Address</h3>
+                    <input type="checkbox" name="billing_address" id='billing_address' style="margin-bottom: 20px;"> Same as Shipping
 
                     <script type = "text/javascript">
                         function getInput() {
-                          $('#billing_address').change(function(){
+                        $('#billing_address').change(function(){
                             var fname = document.getElementById("ship_fname").value;
                             var lname = document.getElementById("ship_lname").value;
                             var address = document.getElementById("ship_address").value;
@@ -73,74 +121,124 @@
                                 $('input#bill_state').val(state)
                                 $('input#bill_zip').val(zip)
                             };
-                          });
+                        });
                         };
                         </script>
                     <br>
 
-                    <p>First Name: <input type="text" name='bill_fname' id='bill_fname'></p>
-                    <p>Last Name: <input type="text" name='bill_lname' id='bill_lname'></p>
-                    <p>Address: <input type="text" name='bill_address' id='bill_address'></p>
-                    <p>Address 2: <input type="text" name='bill_address2' id='bill_address2'></p>
-                    <p>City: <input type="text" name='bill_city' id="bill_city"></p>
-                    <p>State: <input type="text" name='bill_state' id="bill_state"></p>
-                    <p>Zipcode: <input type="number" name='bill_zip' id='bill_zip'></p>
+                    <table>
+                        <tr>
+                            <td><p>First Name:</td>
+                            <td><input type="text" name='bill_fname' id='bill_fname'></p></td>
+                        </tr>
+                        <tr>
+                            <td><p>Last Name: </td>
+                            <td><input type="text" name='bill_lname' id='bill_lname'></p></td>
+                        </tr>
+                        <tr>
+                            <td><p>Address:</td>
+                            <td><input type="text" name='bill_address' id='bill_address'></p></td>
+                        </tr>
+                        <tr>
+                            <td><p>Address 2:</td>
+                            <td><input type="text" name='bill_address2' id='bill_address2'></p></td>
+                        </tr>
+                        <tr>
+                            <td><p>City:</td>
+                            <td><input type="text" name='bill_city' id="bill_city"></p></td>
+                        </tr>
+                        <tr>
+                            <td><p>State:</td>
+                            <td><input type="text" name='bill_state' id="bill_state"></p></td>
+                        </tr>
+                        <tr>
+                            <td><p>Zipcode:</td>
+                            <td> <input type="number" name='bill_zip' id='bill_zip'></p></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style='text-align: right;'><input type="submit" value="Place My Order" class="allButtons" id='updated_prod_btn'></td>
+                        </tr>
+                    </table>
+                    <!-- <p>First Name: <input type="text" name='bill_fname' id='bill_fname'></p> -->
+                    <!-- <p>Last Name: <input type="text" name='bill_lname' id='bill_lname'></p> -->
+                    <!-- <p>Address: <input type="text" name='bill_address' id='bill_address'></p> -->
+                    <!-- <p>Address 2: <input type="text" name='bill_address2' id='bill_address2'></p> -->
+                    <!-- <p>City: <input type="text" name='bill_city' id="bill_city"></p> -->
+                    <!-- <p>State: <input type="text" name='bill_state' id="bill_state"></p>
+                    <p>Zipcode: <input type="number" name='bill_zip' id='bill_zip'></p> -->
         
-                    <input type="submit" value="Place My Order" class="btn btn-primary" id='updated_prod_btn'>
-            </div>
+                    <!-- <input type="submit" value="Place My Order" class="btn btn-primary" id='updated_prod_btn'> -->
+                </div>
 
-            <div class='order_form' id='order_summary'>
-                <table class="table table-striped">
-                    <tr>
-                        <th scope="col">Item</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                {% for prod in prods %}
-                    <tr>
-                        <td>
-                            <a href='/products/show/{{ prod.id }}' >
-                            <img src="{{ prod.main_img }}" alt="{{ prod.name }}, {{ prod.id }}" width="50">
-                            </a> 
-                            <input type="hidden" name="prod" value="{{ prod.id }}">
-                        </td>
-                        <td>
-                            {% for x in cart_contents %}
-                                {% if x.id == prod.id %}
-                                    {{ x.quant }}
-                                    <input type="hidden" name="quant" value="{{ x.quant }}">
-                                {% endif %}
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% for x in cart_contents %}
-                                {% if x.id == prod.id %}
-                                    ${{ x.total|floatformat:2 }}
-                                    <input type="hidden" name="cost" value="{{ x.total }}">
-                                {% endif %}
-                            {% endfor %} 
-                        </td>
-                    </tr>
-                {% endfor %}
-                    <tr>
-                        <td> </td>
-                        <td> </td>
-                        <td scope="col" style="font-weight: bold;">Total: ${{ cart_sumTotal_cost|floatformat:2 }}
-                            <br>
-                            Tax: ${{ tax|floatformat:2 }}
-                            <br>
-                            Shipping: ${{ shipping_cost|floatformat:2 }}
-                        </td>                       
-                    </tr>
-                    <tr>
-                        <td> </td>
-                        <td> </td>
-                        <td scope="col" style="font-weight: bold;">Sub Total: ${{ sub_total|floatformat:2 }}<input type="hidden" name="total_cost" value="{{ sub_total }}"></td>
-                    </tr>
-                </table>
-            </div>
-        </form>
 
- 
+                <div class='order_form' id='order_summary'>
+                    <table class="table table-striped">
+                        <tr>
+                            <th scope="col">Item</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    {% for prod in prods %}
+                        <tr>
+                            <td>
+                                <a href='/products/show/{{ prod.id }}' >
+                                <img src="{{ prod.main_img }}" alt="{{ prod.name }}, {{ prod.id }}" width="50">
+                                </a> 
+                                <input type="hidden" name="prod" value="{{ prod.id }}">
+                            </td>
+                            <td>
+                                {% for x in cart_contents %}
+                                    {% if x.id == prod.id %}
+                                        {{ x.quant }}
+                                        <input type="hidden" name="quant" value="{{ x.quant }}">
+                                    {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for x in cart_contents %}
+                                    {% if x.id == prod.id %}
+                                        ${{ x.total|floatformat:2 }}
+                                        <input type="hidden" name="cost" value="{{ x.total }}">
+                                    {% endif %}
+                                {% endfor %} 
+                            </td>
+                        </tr>
+                    {% endfor %}
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td scope="col" style="font-weight: bold;">Total: ${{ cart_sumTotal_cost|floatformat:2 }}
+                                <br>
+                                Tax: ${{ tax|floatformat:2 }}
+                                <br>
+                                Shipping: ${{ shipping_cost|floatformat:2 }}
+                            </td>                       
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td scope="col" style="font-weight: bold;">Sub Total: ${{ sub_total|floatformat:2 }}<input type="hidden" name="total_cost" value="{{ sub_total }}">
+                            </td>
+                        </tr>
+                    </table>
+                    <div style="text-align: right;">
+                        <a href='/cart_contents' class="smallButton">Back to Cart</a>
+                    </div>
+                </div>
+            </form>
+            </div>
+        </div>
+
+        <footer class='footer' style="padding-top: 10px;">
+            <ul>
+                <li><a href="">Customer Support</a></li>
+                <li><a href="">Contact Us</a></li>
+                <li><a href="">In the News</a></li>
+                <li><a href="">Return Policy</a></li>
+                <li><a href="">Terms and Conditions</a></li>
+            </ul>
+            <p style="color: white;font-size: 11px; margin-top: 40px; margin-bottom: 0;">&copy; Copyright 2019 Mayan Rothstein</p>
+        </footer>
 </body>
 </html>

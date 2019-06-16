@@ -9,98 +9,133 @@
 
     {% load static %}
 
-    <link rel="stylesheet" href="{% static 'online_shopping/admin_styles.css' %}">
+    <link rel="stylesheet" href="{% static 'online_shopping/style.css' %}">
 
     <style>
 
     </style>
 </head>
 <body>
-    <header>
-        <p>Dashboard</p>
-        <a href='/dashboard/orders' >Orders</a>
-        <a href='/dashboard/prods' >Products</a>
-        <a id='logout' href='/admin_logout'>Log Out</a>     
+    <header class="row">  
+        <div class = "col-xs-12 col-md-10" >
+            <a href = '/dashboard/orders' >
+            <img style="vertical-align: top" src= "../../static/images/white_hat_logo.png" height="25px;" style="margin-right: 15px; display: inline-block;">
+            <p id='store_name' style="display: inline-block;">
+                The Accessory Store<br>
+                Admin Dashboards
+            </p>
+            </a>
+        </div>
+        <a  class = "col-xs-6 col-md-2" href='/admin_logout' id="cart">
+            Log Out
+        </a>
     </header>
+
+    <ul id="navigation" >
+        <li><a href = '/dashboard/orders' style='border:1px solid #999; color:#fff; text-transform: uppercase;'>Orders</a></li>
+        <li><a href = '/dashboard/prods' >Inventory</a></li>
+    </ul>
     
-    <aside>
-        <h2>Order ID: {{ selected_order.id }}</h2>
+    
+    <div style="text-align: center;">
+        <div class='prod_dispalys' class="row">
+        <aside id="customer_info">
+            <h2>Order ID: {{ selected_order.id }}</h2>
 
-        <p>Email: <span>{{ selected_order.email }}</span></p>
+            <p>Email: <span>{{ selected_order.email }}</span></p>
 
-        <div class = 'info'>
-            <h4>Customer Shipping Info </h4>
-            <p>First Name: <span>{{ selected_order.sh_fname }}</span></p>
-            <p>Last Name: <span>{{ selected_order.sh_lname }}</span></p>
-            <p>Address:
-                <span> 
-                    {{ selected_order.sh_address }}
-                    {{ selected_order.sh_address2 }}
-                </span>
-                </p>
-            <p>City: <span>{{ selected_order.sh_city }}</span></p>
-            <p>State: <span>{{ selected_order.sh_state }}</span></p>
-            <p>Zip: <span>{{ selected_order.sh_zip }}</span></p>
-        </div>
-
-        <div class = 'info'>
-            <h4>Customer Billing Info </h4>
-            <p>First Name: <span>{{ selected_order.b_fname }}</span></p>
-            <p>Last Name: <span>{{ selected_order.b_lname }}</span></p>
-            <p>Address:
-                <span> 
-                    {{ selected_order.b_address }}
-                    {{ selected_order.b_address2 }}
-                </span>
-                </p>
-            <p>City: <span>{{ selected_order.b_city }}</span></p>
-            <p>State: <span>{{ selected_order.b_state }}</span></p>
-            <p>Zip: <span>{{ selected_order.b_zip }}</span></p>
-
-
-        </div>       
-    </aside>
-
-    <div id='wrapper'>
-        <table id='order_items' class="table table-striped">
-            <tr>
-                <th scope="col">Item ID</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">Price / Unit</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total Cost</th>
-            </tr>
-            {% for detail in order_details %}
-            <tr>
-                <td>{{detail.includes_prod.id }}</td>
-                <td>{{detail.includes_prod.name }}</td>
-                <td>${{detail.includes_prod.price }}</td>
-                <td>{{detail.quant }} </td>
-                <td>${{detail.cost }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    <div id='status_subtotal'>
-        {% if selected_order.status.progress == "order in process" %}
-        <div class='status' id='in_progress'>
-            <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
-        </div>
-        {% elif selected_order.status.progress == "shipped" %}
-        <div class='status' id='in_progress'>
-            <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
-        </div>
-        {% else %}
-        <div class='status' id='cancelled'>
-            <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
-        </div>
-        {% endif %}
-            <div id='totals'>
-                <p>Sub Total: ${{ total|floatformat:2 }}</p>
-                <p>Tax: ${{ tax|floatformat:2 }} </p>
-                <p>Shipping: $5.00</p> 
-                <p>Total Price: <span>${{ selected_order.total_cost |floatformat:2}}</span></p>
+            <div class = 'info'>
+                <h4 style="margin-top: 15px;">Customer Shipping Info </h4>
+                <p>First Name: <span>{{ selected_order.sh_fname }}</span></p>
+                <p>Last Name: <span>{{ selected_order.sh_lname }}</span></p>
+                <p>Address:
+                    <span> 
+                        {{ selected_order.sh_address }}
+                        {{ selected_order.sh_address2 }}
+                    </span>
+                    </p>
+                <p>City: <span>{{ selected_order.sh_city }}</span></p>
+                <p>State: <span>{{ selected_order.sh_state }}</span></p>
+                <p>Zip: <span>{{ selected_order.sh_zip }}</span></p>
             </div>
+
+            <div class = 'info'>
+                <h4 style="margin-top: 15px;">Customer Billing Info </h4>
+                <p>First Name: <span>{{ selected_order.b_fname }}</span></p>
+                <p>Last Name: <span>{{ selected_order.b_lname }}</span></p>
+                <p>Address:
+                    <span> 
+                        {{ selected_order.b_address }}
+                        {{ selected_order.b_address2 }}
+                    </span>
+                    </p>
+                <p>City: <span>{{ selected_order.b_city }}</span></p>
+                <p>State: <span>{{ selected_order.b_state }}</span></p>
+                <p>Zip: <span>{{ selected_order.b_zip }}</span></p>
+
+
+            </div>       
+        </aside>
+
+        <div id="order_info">
+            <table id='order_items' class="table table-striped">
+                <tr>
+                    <th scope="col">Item ID</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Price / Unit</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Total Cost</th>
+                </tr>
+                {% for detail in order_details %}
+                <tr>
+                    <td>{{detail.includes_prod.id }}</td>
+                    <td>{{detail.includes_prod.name }}</td>
+                    <td>${{detail.includes_prod.price }}</td>
+                    <td>{{detail.quant }} </td>
+                    <td>${{detail.cost }}</td>
+                </tr>
+                {% endfor %}
+                <tr  style="background-color: white;">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <p>Sub Total: ${{ total|floatformat:2 }}</p>
+                        <p>Tax: ${{ tax|floatformat:2 }} </p>
+                        <p>Shipping: $5.00</p> 
+                        <p>Total Price: <span>${{ selected_order.total_cost |floatformat:2}}</span></p>
+                    </td>
+                </tr>
+            </table>
+        <div id='status_subtotal'>
+            {% if selected_order.status.progress == "order in process" %}
+            <div class='status' id='in_progress'>
+                <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
+            </div>
+            {% elif selected_order.status.progress == "shipped" %}
+            <div class='status' id='in_progress'>
+                <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
+            </div>
+            {% else %}
+            <div class='status' id='cancelled'>
+                <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
+            </div>
+            {% endif %}
         </div>
-    </div> 
+        </div> 
+        </div>
+    </div>
+
+    <footer class='footer' style="padding-top: 10px;">
+        <ul>
+            <li><a href="">Customer Support</a></li>
+            <li><a href="">Contact Us</a></li>
+            <li><a href="">In the News</a></li>
+            <li><a href="">Return Policy</a></li>
+            <li><a href="">Terms and Conditions</a></li>
+        </ul>
+        <p style="color: white;font-size: 11px; margin-top: 40px; margin-bottom: 0;">&copy; Copyright 2019 Mayan Rothstein</p>
+    </footer>
 </body>
 </html>

@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
+import re
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 class CategoryManager(models.Manager):
     def basic_validator(self, postData):
@@ -19,8 +21,37 @@ class Additional_ImgManager(models.Manager):
 class OrderManager(models.Manager):
     def basic_validator(self, postData):
         errors = {}
-        if len(postData['bill_fname']) < 4:
-            errors["bill_fname"] = "First Name should be at least 2 letters (and only letters)"
+        if len(postData['ship_fname']) < 2 or not str.isalpha(postData['ship_fname']):
+            errors["ship_fname"] = "Shipping first name should be at least 2 letters (and only letters)."
+        if len(postData['ship_lname']) < 2 or not str.isalpha(postData['ship_lname']):
+            errors["ship_lname"] = "Shipping last name should be at least 2 letters (and only letters)."
+        if not EMAIL_REGEX.match(postData['email']):
+            errors["email"] = 'Please enter a valid email'
+        if len(postData['ship_address']) < 2:
+            errors["ship_address"] = "Shipping address should be at least 2 characters."
+        
+        if len(postData['ship_city']) < 2 or not str.isalpha(postData['ship_lname']):
+            errors["ship_city"] = "Shipping city name should be at least 2 letters (and only letters)."
+        if len(postData['ship_state']) < 2 or not str.isalpha(postData['ship_lname']):
+            errors["ship_state"] = "Shipping state should be at least 2 letters (and only letters)."
+        if len(postData['ship_zip']) < 4 or len(postData['ship_zip']) > 6 or str.isalpha(postData['ship_zip']):
+            errors["ship_zip"] = "Shipping zip code should be at least 5 digits."
+        # if len(postData['ship_address2']) < 6:
+        #     errors["ship_address2"] = "Zip code should be at least 5 numbers."
+
+
+        if len(postData['bill_fname']) < 2 or not str.isalpha(postData['bill_fname']):
+            errors["bill_fname"] = "Billing first name should be at least 2 letters (and only letters)."
+        if len(postData['bill_lname']) < 2 or not str.isalpha(postData['bill_lname']):
+            errors["bill_lname"] = "Billing last name should be at least 2 letters (and only letters)"
+        if len(postData['bill_address']) < 2:
+            errors["bill_address"] = "Billing address should be at least 2 letters (and only letters)."
+        # if len(postData['bill_city']) < 2 or not str.isalpha(postData['bill_city']):
+        #     errors["bill_city"] = "Billing city name should be at least 2 letters (and only letters)."
+        if len(postData['bill_state']) < 2 or not str.isalpha(postData['bill_state']):
+            errors["bill_state"] = "Billing state should be at least 2 letters (and only letters)."
+        if len(postData['bill_zip']) < 4 or len(postData['bill_zip']) > 6 or str.isalpha(postData['bill_zip']):
+            errors["bill_zip"] = "Billing zip code should be at least 5 digits."
         return errors
 
 class Order_ItemManager(models.Manager):

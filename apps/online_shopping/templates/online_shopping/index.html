@@ -42,7 +42,7 @@
             <img  src="https://d39l2hkdp2esp1.cloudfront.net/img/photo/145768/145768_00_2x.jpg" src="https://d39l2hkdp2esp1.cloudfront.net/img/photo/169967/169967_00_2x.jpg" height="700">
         </div>
         <div id='hero_content' class = "col-xs-5">
-            <h1 style="font-size: 105px; padding-top: 170px; margin-left: -1em;">Be <br> Unforgettable</h1>
+            <h1 style="font-size: 105px; padding-top: 170px; margin-left: -1em;color: navy;">Be <br> Unforgettable</h1>
             <div style="text-align: right; margin: 0; width:80%;"> 
                 <h2 style="font-size: 30px; color:white; ">
                 Let your style shine!
@@ -53,9 +53,9 @@
     </div>
 
     <div id="new_prods" class='prod_dispalys'>
-        <h2>Latest Additions</h2>
+        <h2 style="font-size: 30px;">Latest Additions</h2>
         {% for prod in new_prods %}
-        <div id="new_prods_spacing" class='featured_prods'>
+        <div id="new_prods_spacing">
             <a href="/products/show/{{ prod.id }}" style="text-decoration: none;">
                 <img src="{{prod.main_img}}" alt="{{prod.name}}" height="200" >
                 
