@@ -89,90 +89,72 @@
                     <td><input type="text" name='ship_zip' id='ship_zip' onkeyup="getInput()"></p></td>
                 </tr>
             </table>
-                    <!-- <p>Last Name: <input type="text" name='ship_lname' id='ship_lname' onkeyup="getInput()"></p> -->
-                    <!-- <p>Email: <input type="email" name='email' ></p> -->
-                    <!-- <p>Address: <input type="text" name='ship_address' id='ship_address' onkeyup="getInput()"></p> -->
-                    <!-- <p>Address 2: <input type="text" name='ship_address2' id='ship_address2' onkeyup="getInput()"></p> -->
-                    <!-- <p>City: <input type="text" name='ship_city' id='ship_city' onkeyup="getInput()"></p> -->
-                    <!-- <p>State: <input type="text" name='ship_state' id='ship_state' onkeyup="getInput()"></p> -->
-                    <!-- <p>Zipcode: <input type="text" name='ship_zip' id='ship_zip' onkeyup="getInput()"></p> -->
-                
-        
-                <h3 style="margin-bottom: 25px; margin-top: 30px;">Billing Address</h3>
-                    <input type="checkbox" name="billing_address" id='billing_address' style="margin-bottom: 20px;"> Same as Shipping
+    
+            <h3 style="margin-bottom: 25px; margin-top: 30px;">Billing Address</h3>
+                <input type="checkbox" name="billing_address" id='billing_address' style="margin-bottom: 20px;"> Same as Shipping
 
-                    <script type = "text/javascript">
-                        function getInput() {
-                        $('#billing_address').change(function(){
-                            var fname = document.getElementById("ship_fname").value;
-                            var lname = document.getElementById("ship_lname").value;
-                            var address = document.getElementById("ship_address").value;
-                            var address2 = document.getElementById("ship_address2").value;
-                            var city = document.getElementById("ship_city").value;
-                            var state = document.getElementById("ship_state").value;
-                            var zip = document.getElementById("ship_zip").value;
+                <script type = "text/javascript">
+                    function getInput() {
+                    $('#billing_address').change(function(){
+                        var fname = document.getElementById("ship_fname").value;
+                        var lname = document.getElementById("ship_lname").value;
+                        var address = document.getElementById("ship_address").value;
+                        var address2 = document.getElementById("ship_address2").value;
+                        var city = document.getElementById("ship_city").value;
+                        var state = document.getElementById("ship_state").value;
+                        var zip = document.getElementById("ship_zip").value;
 
-                            if ($(this).is(':checked')) {
-                                $('input#bill_fname').val(fname)
-                                $('input#bill_lname').val(lname)
-                                $('input#bill_address').val(address)
-                                $('input#bill_address2').val(address2)
-                                $('input#bill_city').val(city)
-                                $('input#bill_state').val(state)
-                                $('input#bill_zip').val(zip)
-                            };
-                        });
+                        if ($(this).is(':checked')) {
+                            $('input#bill_fname').val(fname)
+                            $('input#bill_lname').val(lname)
+                            $('input#bill_address').val(address)
+                            $('input#bill_address2').val(address2)
+                            $('input#bill_city').val(city)
+                            $('input#bill_state').val(state)
+                            $('input#bill_zip').val(zip)
                         };
-                        </script>
-                    <br>
+                    });
+                    };
+                    </script>
+                <br>
 
-                    <table>
-                        <tr>
-                            <td><p>First Name:</td>
-                            <td><input type="text" name='bill_fname' id='bill_fname'></p></td>
-                        </tr>
-                        <tr>
-                            <td><p>Last Name: </td>
-                            <td><input type="text" name='bill_lname' id='bill_lname'></p></td>
-                        </tr>
-                        <tr>
-                            <td><p>Address:</td>
-                            <td><input type="text" name='bill_address' id='bill_address'></p></td>
-                        </tr>
-                        <tr>
-                            <td><p>Address 2:</td>
-                            <td><input type="text" name='bill_address2' id='bill_address2'></p></td>
-                        </tr>
-                        <tr>
-                            <td><p>City:</td>
-                            <td><input type="text" name='bill_city' id="bill_city"></p></td>
-                        </tr>
-                        <tr>
-                            <td><p>State:</td>
-                            <td><input type="text" name='bill_state' id="bill_state"></p></td>
-                        </tr>
-                        <tr>
-                            <td><p>Zipcode:</td>
-                            <td> <input type="number" name='bill_zip' id='bill_zip'></p></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td style='text-align: right;'><input type="submit" value="Place My Order" class="allButtons" id='updated_prod_btn'></td>
-                        </tr>
-                    </table>
-                    <!-- <p>First Name: <input type="text" name='bill_fname' id='bill_fname'></p> -->
-                    <!-- <p>Last Name: <input type="text" name='bill_lname' id='bill_lname'></p> -->
-                    <!-- <p>Address: <input type="text" name='bill_address' id='bill_address'></p> -->
-                    <!-- <p>Address 2: <input type="text" name='bill_address2' id='bill_address2'></p> -->
-                    <!-- <p>City: <input type="text" name='bill_city' id="bill_city"></p> -->
-                    <!-- <p>State: <input type="text" name='bill_state' id="bill_state"></p>
-                    <p>Zipcode: <input type="number" name='bill_zip' id='bill_zip'></p> -->
-        
-                    <!-- <input type="submit" value="Place My Order" class="btn btn-primary" id='updated_prod_btn'> -->
+                <table>
+                    <tr>
+                        <td><p>First Name:</td>
+                        <td><input type="text" name='bill_fname' id='bill_fname'></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Last Name: </td>
+                        <td><input type="text" name='bill_lname' id='bill_lname'></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Address:</td>
+                        <td><input type="text" name='bill_address' id='bill_address'></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Address 2:</td>
+                        <td><input type="text" name='bill_address2' id='bill_address2'></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>City:</td>
+                        <td><input type="text" name='bill_city' id="bill_city"></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>State:</td>
+                        <td><input type="text" name='bill_state' id="bill_state"></p></td>
+                    </tr>
+                    <tr>
+                        <td><p>Zipcode:</td>
+                        <td> <input type="number" name='bill_zip' id='bill_zip'></p></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td style='text-align: right;'><input type="submit" value="Place My Order" class="allButtons" id='updated_prod_btn'></td>
+                    </tr>
+                </table>
                 </div>
 
-
-                <div class='order_form' id='order_summary'>
+               <div class='order_form' id='order_summary'>
                     <table class="table table-striped">
                         <tr>
                             <th scope="col">Item</th>
@@ -180,7 +162,7 @@
                             <th scope="col">Total</th>
                         </tr>
                     {% for prod in prods %}
-                        <tr>
+                        <tr style="background-color: white;">
                             <td>
                                 <a href='/products/show/{{ prod.id }}' >
                                 <img src="{{ prod.main_img }}" alt="{{ prod.name }}, {{ prod.id }}" width="50">
@@ -205,7 +187,7 @@
                             </td>
                         </tr>
                     {% endfor %}
-                        <tr>
+                        <tr style="background-color: white;">
                             <td> </td>
                             <td> </td>
                             <td scope="col" style="font-weight: bold;">Total: ${{ cart_sumTotal_cost|floatformat:2 }}
@@ -215,7 +197,7 @@
                                 Shipping: ${{ shipping_cost|floatformat:2 }}
                             </td>                       
                         </tr>
-                        <tr>
+                        <tr style="background-color: white;">
                             <td> </td>
                             <td> </td>
                             <td scope="col" style="font-weight: bold;">Sub Total: ${{ sub_total|floatformat:2 }}<input type="hidden" name="total_cost" value="{{ sub_total }}">

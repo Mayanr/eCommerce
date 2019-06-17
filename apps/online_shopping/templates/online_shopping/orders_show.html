@@ -87,7 +87,7 @@
                     <th scope="col">Total Cost</th>
                 </tr>
                 {% for detail in order_details %}
-                <tr>
+                <tr  style="background-color: white;">
                     <td>{{detail.includes_prod.id }}</td>
                     <td>{{detail.includes_prod.name }}</td>
                     <td>${{detail.includes_prod.price }}</td>
@@ -119,7 +119,7 @@
             </div>
             {% else %}
             <div class='status' id='cancelled'>
-                <p>Status: <span>{{ selected_order.status.progress }}</span> </p>
+                <p style="color: white">Status: <span>{{ selected_order.status.progress }}</span> </p>
             </div>
             {% endif %}
         </div>

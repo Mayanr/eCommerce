@@ -172,6 +172,10 @@ div#new_prods_spacing{
     padding-top: 15px;
 }
 
+div#small_img {
+    text-align: center;
+}
+
 /* formatting for products/categories/specific category ID page */
 .prod_dispalys {
     display: inline-block;

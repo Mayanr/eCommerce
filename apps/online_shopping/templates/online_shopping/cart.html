@@ -33,11 +33,7 @@
         <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}}</a></li>
     {% endfor %}
     </ul>
-        
-    <!-- <nav>
-        <a href="/">Home</a>
-        <a href='/products/category/{{ selected_prod.cat.id }}'>Go Back</a>
-    </nav> -->
+
     <div style="text-align: center;">
     <div class="prod_dispalys">
         <h1> Items in your cart:</h1>
@@ -52,7 +48,7 @@
             {% for prod in prods %}
             <form action='editCart/{{ prod.id }}' method='POST'>
                 {% csrf_token %}
-                <tr>
+                <tr style="background-color: white;">
                     <td>
                         <a href='/products/show/{{ prod.id }}' >
                         <img src="{{ prod.main_img }}" alt="{{ prod.name }}, {{ prod.id }}" width="100">
@@ -83,8 +79,8 @@
                     </select>
                     {% endif %}
                     {% endfor %}
-                    <input type="submit" value="Update" class="remove_button_style"> |
-                    <a href='removeFromCart/{{ prod.id }}' class="remove_button_style">Remove Item</a></td>
+                    <input type="submit" value="Update" class="remove_button_style" style="color: greenyellow;  font-weight: bold"> |
+                    <a href='removeFromCart/{{ prod.id }}' class="remove_button_style" style="color: red; font-weight: bold">Remove Item</a></td>
                     <td>
                         {% for x in cart_contents %}
                             {% if x.id == prod.id %}
@@ -111,7 +107,6 @@
                     <br>
                     <span style="font-weight: bold">Sub Total: ${{ sub_total|floatformat:2 }}</span>
                 </p>
-                <!-- <input type="submit" value="Proceed to Checkout" class="btn btn-primary" id='updated_prod_btn'> -->
                 <a href="checkout" class="allButtons">Proceed to Checkout >></a>
                 <br>
                 <a href='/' class="smallButton"> Continue Shopping </a>
@@ -134,5 +129,3 @@
     </footer>
 </body>
 </html>
-<!-- (${{ p|floatformat:2 }})
-(${{ p|floatformat:2 }}) -->

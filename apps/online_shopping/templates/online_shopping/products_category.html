@@ -45,11 +45,13 @@
             {% for p in prods_in_cat %}
             <div class='featured_prods'>
                 <a href="/products/show/{{ p.id }}" style="text-decoration: none;">
-                    <img src="{{p.main_img}}" alt="{{p.name}}" height="200" >
-                    <br>
-                    {{p.name}}
-                    <br>
-                    ${{p.price}}
+                    <div id="small_img">
+                        <img src="{{p.main_img}}" alt="{{p.name}}" height="200" >
+                        <br>
+                        {{p.name}}
+                        <br>
+                        ${{p.price}}
+                    </div>
                 </a>
             </div>
             {% endfor %}
@@ -68,25 +70,3 @@
     </footer>
 </body>
 </html>
-
-        <!-- <header>
-            <p>eCommerce- Store Name!</p>
-            <a href='/cart_contents' id="cart">Shopping Cart ({{cart_count}})</a>
-        </header>
-        <a href="/" id='home_link'>Home</a>
-        <aside>
-            <nav id='nav' class="navbar navbar-light bg-light">
-                <form class="form-inline">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-sm btn-outline-secondary" type="submit">Search</button>
-                </form>
-            </nav>  -->
-        <!-- <div id='categories'>    
-            <h4>Categories</h4>
-            <ul>
-            {% for cat in categories %}
-                <li><a href = '/products/category/{{ cat.id }}' >{{cat.title}} ({{cat.prod_in_category.count}})</a></li>
-            {% endfor %}
-            </ul>
-        </div> -->
-    <!-- </aside> -->

@@ -7,7 +7,6 @@ EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
 
 
 def index(request):
-    # print(Prod.objects.order_by('-created_at')[:3].values())
     if 'cart_' not in request.session:
         request.session['cart_'] = []
     else:
@@ -188,8 +187,7 @@ def process_order(request):
 
         total_cost = request.POST['total_cost']
         status = Status.objects.get(id=1)
-        # add_to_cat = Category.objects.get(id = c)
-        # new_cat = Category.objects.create(title = c)
+
         new_order = Order.objects.create(email = email, b_fname = bill_fname, b_lname = bill_lname, b_address = bill_address, b_address2 = bill_address2, b_city = bill_city, b_state = bill_state, b_zip = bill_zip, sh_fname = ship_fname, sh_lname = ship_lname, sh_address = ship_address, sh_address2 = ship_address2, sh_city = ship_city, sh_state = ship_state, sh_zip = ship_zip, total_cost = total_cost, status = status)
         for key, value in request.POST.lists():
             if key=='prod':
@@ -198,9 +196,7 @@ def process_order(request):
                 quant = value
             if key=='cost':
                 cost = value
-        # new_order = Order.objects.get(id=1)
         for p,q,c in zip(prods,quant,cost):
-            # print("p is qual to ", p, "and q is" , q)
             ordered_prod = Prod.objects.get(id=p)
             Order_Item.objects.create(includes_prod = ordered_prod, quant = q, cost =c, belongs_to_shopper = new_order)
             ordered_prod.count -= int(q)
@@ -247,13 +243,9 @@ def verify_admin(request):
 
 
 def admin_logout(request):
-    if 'logged_in' in request.session:
-        del request.session['logged_in']
-        messages.error(request, 'Successful log out. Thanks for visiting, see you next time!')
-        return redirect('/admin')
-    else:
-        messages.error(request, 'You must be logged in to access this page. Please log in below or contact your site adminstrator to obtain the credentials.')
-        return redirect('/admin')
+    del request.session['logged_in']
+    messages.error(request, 'Successful log out. Thanks for visiting, see you next time!')
+    return redirect('/admin')
 
 
 def dashboard_orders(request):
@@ -272,7 +264,6 @@ def dashboard_prods(request):
         context = {
             'products' : Prod.objects.order_by('-updated_at'),
             'categories' : Category.objects.all(),
-            # 'order_by_name' : Prod.objects.order_by('name')
         }
         return render(request, 'online_shopping/dashboard_prods.html', context)
     else:
@@ -299,13 +290,6 @@ def orders_show(request, order_id):
 
 def add_prod(request):
     if 'logged_in' in request.session:
-        # errors = Prod.objects.basic_validator(request.POST)
-        # if len(errors) > 0:
-        #     for key, value in errors.items():
-        #         messages.error(request, value)
-        #         print('entries no good')
-        #     return redirect('/dashboard/prods')
-        # else:
         n = request.POST['name']
         d = request.POST['desc']
         p = request.POST['unit_price']
@@ -332,13 +316,6 @@ def delete_prod(request, prod_id):
 def update_prod(request):
     if 'logged_in' in request.session:
         editing_prod = Prod.objects.get(id=request.POST['prod_id'])
-        # errors = Prod.objects.basic_validator(request.POST)
-    # if len(errors) > 0:
-    #     for key, value in errors.items():
-    #         messages.error(request, value)
-    #         print('entries no good')
-    #     return redirect('/dashboard/prods')
-    # else:
         editing_prod.name = request.POST['name']
         editing_prod.desc = request.POST['desc']
         editing_prod.price = request.POST['unit_price']
